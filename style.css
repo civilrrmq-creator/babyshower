@@ -391,3 +391,158 @@ main {
         animation: none;
     }
 }
+/* Sección de regalos */
+.gifts-section {
+    min-height: 100vh;
+    padding: 110px 6%;
+    position: relative;
+    z-index: 1;
+}
+
+.section-heading {
+    width: min(760px, 100%);
+    margin: 0 auto 55px;
+    text-align: center;
+}
+
+.section-heading h2 {
+    margin-bottom: 20px;
+
+    font-family: "Orbitron", sans-serif;
+    font-size: clamp(38px, 6vw, 66px);
+}
+
+.section-heading p {
+    color: var(--soft-text);
+    font-size: 18px;
+    line-height: 1.8;
+}
+
+/* Cuadrícula de tarjetas */
+.gifts-grid {
+    width: min(1200px, 100%);
+    margin: 0 auto;
+
+    display: grid;
+    grid-template-columns:
+        repeat(auto-fit, minmax(240px, 1fr));
+
+    gap: 24px;
+}
+
+/* Tarjeta individual */
+.gift-card {
+    min-height: 330px;
+    padding: 28px;
+
+    display: flex;
+    flex-direction: column;
+
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 26px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(21, 18, 62, 0.88),
+            rgba(7, 8, 30, 0.8)
+        );
+
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.3);
+
+    backdrop-filter: blur(12px);
+
+    transition:
+        transform 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.gift-card:hover {
+    transform: translateY(-8px);
+
+    border-color: rgba(35, 213, 255, 0.6);
+
+    box-shadow:
+        0 24px 70px rgba(0, 0, 0, 0.4),
+        0 0 30px rgba(35, 213, 255, 0.12);
+}
+
+/* Imagen temporal */
+.gift-image-placeholder {
+    height: 135px;
+    margin-bottom: 24px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 20px;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(154, 77, 255, 0.28),
+            rgba(35, 213, 255, 0.08)
+        );
+
+    font-size: 55px;
+}
+
+/* Categoría */
+.gift-category {
+    margin-bottom: 10px;
+
+    color: var(--cyan);
+
+    font-family: "Orbitron", sans-serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+/* Nombre del regalo */
+.gift-card h3 {
+    margin-bottom: 14px;
+
+    font-family: "Orbitron", sans-serif;
+    font-size: 21px;
+}
+
+/* Descripción */
+.gift-card p {
+    margin-bottom: 24px;
+
+    flex-grow: 1;
+
+    color: var(--soft-text);
+    line-height: 1.65;
+}
+
+/* Estado */
+.gift-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    margin-bottom: 18px;
+
+    color: #8cffc1;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* Botón de cada regalo */
+.gift-button {
+    width: 100%;
+    padding: 14px 20px;
+
+    font-size: 13px;
+}
+
+/* Mensaje mientras se cargan */
+.loading-message {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: var(--soft-text);
+}
