@@ -1,0 +1,393 @@
+*/* Reinicio básico de estilos */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Permite desplazamientos suaves en toda la página */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Variables de diseño */
+:root {
+    --space-dark: #05010f;
+    --space-blue: #0a1640;
+    --purple: #9a4dff;
+    --cyan: #23d5ff;
+    --pink: #ff4fd8;
+    --white: #ffffff;
+    --soft-text: #d6d8f5;
+}
+
+/* Configuración general */
+body {
+    min-height: 100vh;
+    overflow-x: hidden;
+
+    background:
+        radial-gradient(
+            circle at 20% 20%,
+            rgba(35, 213, 255, 0.18),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 80% 25%,
+            rgba(255, 79, 216, 0.2),
+            transparent 28%
+        ),
+        radial-gradient(
+            circle at 50% 70%,
+            rgba(154, 77, 255, 0.22),
+            transparent 35%
+        ),
+        linear-gradient(
+            180deg,
+            var(--space-blue),
+            var(--space-dark)
+        );
+
+    color: var(--white);
+    font-family: "Inter", sans-serif;
+}
+
+/* Primera pantalla */
+.hero {
+    min-height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 40px 20px;
+
+    position: relative;
+    text-align: center;
+}
+
+/* Contenido de la portada */
+.hero-content {
+    width: min(900px, 100%);
+
+    animation: appear 1.2s ease both;
+}
+
+/* Texto pequeño superior */
+.eyebrow,
+.section-label {
+    display: inline-block;
+
+    margin-bottom: 18px;
+
+    color: var(--cyan);
+
+    font-family: "Orbitron", sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+/* Título principal */
+h1 {
+    margin-bottom: 24px;
+
+    font-family: "Orbitron", sans-serif;
+    font-size: clamp(48px, 8vw, 92px);
+    line-height: 1.05;
+}
+
+/* Nombre del bebé */
+h1 strong {
+    display: block;
+
+    color: transparent;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--cyan),
+            var(--purple),
+            var(--pink)
+        );
+
+    background-clip: text;
+    -webkit-background-clip: text;
+}
+
+/* Texto principal */
+.hero p {
+    max-width: 650px;
+
+    margin: 0 auto 38px;
+
+    color: var(--soft-text);
+
+    font-size: clamp(18px, 2vw, 23px);
+    line-height: 1.7;
+}
+
+/* Botón principal */
+button {
+    padding: 18px 38px;
+
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 50px;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--purple),
+            #5b5cff,
+            var(--cyan)
+        );
+
+    color: var(--white);
+
+    font-family: "Orbitron", sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 0 20px rgba(154, 77, 255, 0.45),
+        0 0 45px rgba(35, 213, 255, 0.18);
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+/* Efecto al pasar el cursor */
+button:hover {
+    transform: translateY(-4px) scale(1.03);
+
+    box-shadow:
+        0 0 28px rgba(154, 77, 255, 0.7),
+        0 0 60px rgba(35, 213, 255, 0.3);
+}
+
+/* Efecto al presionar */
+button:active {
+    transform: scale(0.98);
+}
+
+/* Segunda sección */
+.mission-section {
+    min-height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 80px 20px;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(5, 1, 15, 0.15),
+            rgba(5, 1, 15, 0.95)
+        );
+}
+
+/* Tarjeta de contenido */
+.section-content {
+    width: min(850px, 100%);
+
+    padding: 55px;
+
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 30px;
+
+    background: rgba(7, 8, 30, 0.65);
+
+    text-align: center;
+
+    box-shadow:
+        0 25px 80px rgba(0, 0, 0, 0.35);
+
+    backdrop-filter: blur(12px);
+}
+
+/* Título de la segunda sección */
+.section-content h2 {
+    margin-bottom: 24px;
+
+    font-family: "Orbitron", sans-serif;
+    font-size: clamp(34px, 5vw, 58px);
+}
+
+/* Párrafo de la segunda sección */
+.section-content p {
+    color: var(--soft-text);
+
+    font-size: 19px;
+    line-height: 1.8;
+}
+
+/* Animación inicial */
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Ajustes para celulares */
+@media (max-width: 600px) {
+    .hero {
+        padding: 30px 18px;
+    }
+
+    .section-content {
+        padding: 38px 24px;
+    }
+
+    button {
+        width: 100%;
+        max-width: 320px;
+    }
+}
+/* Fondo espacial fijo */
+.space-background {
+    position: fixed;
+    inset: 0;
+
+    overflow: hidden;
+
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* Capa que contendrá las estrellas */
+.stars {
+    position: absolute;
+    inset: 0;
+}
+
+/* Diseño básico de cada estrella */
+.star {
+    position: absolute;
+
+    width: var(--star-size);
+    height: var(--star-size);
+
+    border-radius: 50%;
+
+    background: white;
+
+    opacity: var(--star-opacity);
+
+    box-shadow:
+        0 0 6px rgba(255, 255, 255, 0.8),
+        0 0 12px rgba(85, 214, 255, 0.4);
+
+    animation:
+        twinkle var(--twinkle-duration) ease-in-out infinite alternate;
+}
+
+/* Nebulosas */
+.nebula {
+    position: absolute;
+
+    width: 650px;
+    height: 650px;
+
+    border-radius: 50%;
+
+    filter: blur(90px);
+    opacity: 0.28;
+
+    animation: float-nebula 18s ease-in-out infinite alternate;
+}
+
+.nebula-one {
+    top: -220px;
+    left: -180px;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(35, 213, 255, 0.9),
+            rgba(35, 213, 255, 0)
+        );
+}
+
+.nebula-two {
+    top: 15%;
+    right: -260px;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255, 79, 216, 0.85),
+            rgba(255, 79, 216, 0)
+        );
+
+    animation-delay: -6s;
+}
+
+.nebula-three {
+    bottom: -320px;
+    left: 30%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(154, 77, 255, 0.9),
+            rgba(154, 77, 255, 0)
+        );
+
+    animation-delay: -11s;
+}
+
+/* Parpadeo de estrellas */
+@keyframes twinkle {
+    from {
+        opacity: calc(var(--star-opacity) * 0.4);
+        transform: scale(0.8);
+    }
+
+    to {
+        opacity: var(--star-opacity);
+        transform: scale(1.25);
+    }
+}
+
+/* Movimiento lento de nebulosas */
+@keyframes float-nebula {
+    from {
+        transform: translate3d(-20px, -15px, 0) scale(1);
+    }
+
+    to {
+        transform: translate3d(45px, 35px, 0) scale(1.12);
+    }
+}
+
+/* El contenido debe permanecer sobre el fondo */
+main {
+    position: relative;
+    z-index: 1;
+}
+
+/* Reduce las animaciones cuando el usuario lo solicita */
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    .star,
+    .nebula,
+    .hero-content {
+        animation: none;
+    }
+}
