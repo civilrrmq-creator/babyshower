@@ -1,3 +1,5 @@
+import { obtenerRegalos } from "./regalosFirestore.js";
+import { guardarReserva } from "./reservasFirestore.js";
 const missionButton = document.querySelector("#mission-button");
 const missionSection = document.querySelector("#mission");
 
@@ -12,7 +14,7 @@ const buttonText = document.querySelector("#button-text");
  */
 async function loadEventData() {
     try {
-        const response = await fetch("data/evento.json");
+        const response = await fetch("../data/evento.json");
 
         if (!response.ok) {
             throw new Error("No fue posible cargar los datos del evento.");
@@ -76,9 +78,57 @@ function getGiftIcon(category) {
 /**
  * Construye una tarjeta HTML para un regalo.
  */
-function createGiftCard(gift) {
-    const article = document.createElement("article");
+const reservationModal = document.querySelector("#reservation-modal");
+const cancelReservationButton = document.querySelector("#cancel-reservation");
+const confirmReservationButton = document.querySelector("#confirm-reservation");
+cancelReservationButton.addEventListener("click", () => {
+    reservationModal.classList.add("hidden");
+});
 
+confirmReservationButton.addEventListener("click", async () => {
+    const guestNameInput = document.querySelector("#guest-name");
+    const giftQuantityInput = document.querySelector("#gift-quantity");
+
+    const nombre = guestNameInput.value.trim();
+    const cantidad = Number(giftQuantityInput.value);
+
+    if (!nombre) {
+        alert("Escribe tu nombre.");
+        return;
+    }
+
+    if (!Number.isInteger(cantidad) || cantidad <= 0) {
+        alert("Escribe una cantidad válida.");
+        return;
+    }
+
+    try {
+    confirmReservationButton.disabled = true;
+    confirmReservationButton.textContent = "Guardando...";
+
+    await guardarReserva({
+        nombre,
+        regaloId: reservationModal.dataset.giftId,
+        regaloNombre: reservationModal.dataset.giftName,
+        cantidad,
+        unidad: reservationModal.dataset.giftUnit
+    });
+
+    alert("🚀 Misión confirmada. Tu reserva quedó guardada.");
+
+    reservationModal.classList.add("hidden");
+} catch (error) {
+    console.error(error);
+    alert("No fue posible guardar la reserva.");
+} finally {
+    confirmReservationButton.disabled = false;
+    confirmReservationButton.textContent = "Confirmar misión";
+}
+});
+function createGiftCard(gift) {
+    console.log("Creando tarjeta:", gift.nombre);
+
+    const article = document.createElement("article");
     article.classList.add("gift-card");
 
     article.innerHTML = `
@@ -106,8 +156,27 @@ function createGiftCard(gift) {
             Reservar misión
         </button>
     `;
+  article.querySelector(".gift-button").addEventListener("click", () => {
+const reservationModal = document.querySelector("#reservation-modal");
+const modalGiftName = document.querySelector("#modal-gift-name");
+const guestNameInput = document.querySelector("#guest-name");
+const giftQuantityInput = document.querySelector("#gift-quantity");
 
+modalGiftName.textContent = gift.nombre;
+guestNameInput.value = "";
+giftQuantityInput.value = "1";
+
+reservationModal.dataset.giftId = gift.id;
+reservationModal.dataset.giftName = gift.nombre;
+reservationModal.dataset.giftUnit = gift.unidad;
+
+reservationModal.classList.remove("hidden");
+
+
+
+});
     return article;
+  
 }
 
 /**
@@ -119,15 +188,13 @@ async function loadGifts() {
     }
 
     try {
-        const response = await fetch("data/regalos.json");
+        const gifts = await obtenerRegalos();
 
-        if (!response.ok) {
-            throw new Error(
-                "No fue posible cargar la lista de regalos."
-            );
-        }
-
-        const gifts = await response.json();
+if (!gifts.length) {
+    throw new Error(
+        "No se encontraron regalos en Firestore."
+    );
+}
 
         giftsContainer.innerHTML = "";
 

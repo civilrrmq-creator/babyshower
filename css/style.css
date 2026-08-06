@@ -546,3 +546,112 @@ main {
     text-align: center;
     color: var(--soft-text);
 }
+/* Modal de reserva */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+
+    display: grid;
+    place-items: center;
+
+    padding: 24px;
+
+    background: rgba(3, 5, 22, 0.78);
+    backdrop-filter: blur(10px);
+}
+
+.modal-overlay.hidden {
+    display: none;
+}
+
+.reservation-modal {
+    width: min(460px, 100%);
+    padding: 32px;
+
+    border: 1px solid rgba(35, 213, 255, 0.35);
+    border-radius: 26px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(21, 18, 62, 0.98),
+            rgba(7, 8, 30, 0.98)
+        );
+
+    box-shadow:
+        0 24px 80px rgba(0, 0, 0, 0.55),
+        0 0 40px rgba(35, 213, 255, 0.12);
+}
+
+.reservation-modal h2 {
+    margin-bottom: 12px;
+
+    font-family: "Orbitron", sans-serif;
+    font-size: 24px;
+    text-align: center;
+}
+
+#modal-gift-name {
+    margin-bottom: 26px;
+
+    color: var(--soft-text);
+    text-align: center;
+}
+
+.modal-field {
+    margin-bottom: 20px;
+}
+
+.modal-field label {
+    display: block;
+    margin-bottom: 8px;
+
+    color: var(--cyan);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.modal-field input {
+    width: 100%;
+    padding: 14px 16px;
+
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 14px;
+
+    color: white;
+    background: rgba(255, 255, 255, 0.08);
+
+    font: inherit;
+    outline: none;
+}
+
+.modal-field input:focus {
+    border-color: rgba(35, 213, 255, 0.7);
+    box-shadow: 0 0 0 3px rgba(35, 213, 255, 0.1);
+}
+
+.modal-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 28px;
+}
+
+.modal-actions button {
+    flex: 1;
+    padding: 14px 18px;
+}
+
+#cancel-reservation {
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    color: white;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+#confirm-reservation {
+    border: none;
+    color: white;
+    background: linear-gradient(90deg, #934cff, #24c8f0);
+}

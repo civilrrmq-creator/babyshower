@@ -19,7 +19,7 @@
         rel="stylesheet"
     >
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
@@ -106,8 +106,49 @@
 </section>
     </main>
 
-    <script src="script.js"></script>
+    <script type="module" src="js/script.js"></script>
+<script type="module" src="js/cargarRegalos.js"></script>
+<!-- Modal de reserva -->
+<div class="modal-overlay hidden" id="reservation-modal">
 
+    <div class="reservation-modal">
+
+        <h2>🚀 Reservar misión</h2>
+
+        <p id="modal-gift-name"></p>
+
+        <div class="modal-field">
+            <label>Tu nombre</label>
+            <input
+                type="text"
+                id="guest-name"
+                placeholder="Escribe tu nombre"
+            >
+        </div>
+
+        <div class="modal-field">
+            <label>Cantidad</label>
+            <input
+                type="number"
+                id="gift-quantity"
+                value="1"
+                min="1"
+            >
+        </div>
+
+        <div class="modal-actions">
+            <button id="cancel-reservation">
+                Cancelar
+            </button>
+
+            <button id="confirm-reservation">
+                Confirmar misión
+            </button>
+        </div>
+
+    </div>
+
+</div>
 </body>
 
 </html>
