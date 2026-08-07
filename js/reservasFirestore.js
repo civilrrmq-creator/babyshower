@@ -48,13 +48,23 @@ export async function guardarReserva({
         });
 
         // Solo bloqueamos los regalos UNICOS.
-        if (regalo.tipo === "UNICO") {
-            transaction.update(regaloRef, {
-                estado: "reservado",
-                reservadoPor: nombre
-            });
-        }
-    });
+        // Solo bloqueamos los regalos UNICOS.
+    if (regalo.tipo === "UNICO") {
+        transaction.update(regaloRef, {
+            estado: "reservado",
+            reservadoPor: nombre
+        });
+    }
 
-    return reservaRef.id;
+    if (regalo.tipo === "ABIERTO") {
+        const cantidadActual = regalo.cantidadReservada || 0;
+
+        transaction.update(regaloRef, {
+            cantidadReservada: cantidadActual + cantidad
+        });
+    }
+
+}); 
+
+return reservaRef.id;
 }

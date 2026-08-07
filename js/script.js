@@ -120,29 +120,35 @@ confirmReservationButton.addEventListener("click", async () => {
     }
 
     try {
-    confirmReservationButton.disabled = true;
-    confirmReservationButton.textContent = "Guardando...";
-await guardarReserva({
-    nombre,
-    regaloId: reservationModal.dataset.giftId,
-    regaloNombre: reservationModal.dataset.giftName,
-    cantidad,
-    unidad: reservationModal.dataset.giftUnit
+        confirmReservationButton.disabled = true;
+        confirmReservationButton.textContent = "Guardando...";
+
+        await guardarReserva({
+            nombre,
+            regaloId: reservationModal.dataset.giftId,
+            regaloNombre: reservationModal.dataset.giftName,
+            cantidad,
+            unidad: reservationModal.dataset.giftUnit
+        });
+
+        alert("🚀 Misión confirmada. Tu reserva quedó guardada.");
+
+        reservationModal.classList.add("hidden");
+
+    } catch (error) {
+        console.error("Error al reservar:", error);
+
+        alert("🔒 Esta misión acaba de ser reservada por otro invitado.");
+
+        reservationModal.classList.add("hidden");
+
+    } finally {
+        confirmReservationButton.disabled = false;
+        confirmReservationButton.textContent = "Confirmar misión";
+    }
 });
 
-await loadGifts();
 
-    alert("🚀 Misión confirmada. Tu reserva quedó guardada.");
-
-    reservationModal.classList.add("hidden");
-} catch (error) {
-    console.error(error);
-    alert("No fue posible guardar la reserva.");
-} finally {
-    confirmReservationButton.disabled = false;
-    confirmReservationButton.textContent = "Confirmar misión";
-}
-});
 function createGiftCard(gift) {
     console.log("Creando tarjeta:", gift.nombre);
 
@@ -162,46 +168,50 @@ function createGiftCard(gift) {
 
         <p>${gift.descripcion}</p>
 
-        <span class="gift-status">
-    ${gift.estado === "reservado"
-        ? `🔒 Reservado por ${gift.reservadoPor || "otro invitado"}`
-        : "● Disponible"}
+       <span class="gift-status">
+    ${
+        gift.tipo === "ABIERTO"
+            ? `♾️ Misión abierta · Puedes sumarte`
+            : gift.estado === "reservado"
+                ? `🔒 Reservado por ${gift.reservadoPor || "otro invitado"}`
+                : "● Disponible"
+    }
 </span>
 
-<button
-    class="gift-button"
-    type="button"
-    data-gift-id="${gift.id}"
-    ${gift.estado === "reservado" ? "disabled" : ""}
->
-    ${gift.estado === "reservado"
-        ? "Misión reservada"
-        : "Reservar misión"}
-</button>
+        <button
+            class="gift-button"
+            type="button"
+            data-gift-id="${gift.id}"
+            ${gift.estado === "reservado" ? "disabled" : ""}
+        >
+            ${
+                gift.estado === "reservado"
+                    ? "Misión reservada"
+                    : "Reservar misión"
+            }
+        </button>
     `;
-  article.querySelector(".gift-button").addEventListener("click", () => {
-const reservationModal = document.querySelector("#reservation-modal");
-const modalGiftName = document.querySelector("#modal-gift-name");
-const guestNameInput = document.querySelector("#guest-name");
-const giftQuantityInput = document.querySelector("#gift-quantity");
 
-modalGiftName.textContent = gift.nombre;
-guestNameInput.value = "";
-giftQuantityInput.value = "1";
+    const giftButton = article.querySelector(".gift-button");
 
-reservationModal.dataset.giftId = gift.id;
-reservationModal.dataset.giftName = gift.nombre;
-reservationModal.dataset.giftUnit = gift.unidad;
+    giftButton.addEventListener("click", () => {
+        const modalGiftName = document.querySelector("#modal-gift-name");
+        const guestNameInput = document.querySelector("#guest-name");
+        const giftQuantityInput = document.querySelector("#gift-quantity");
 
-reservationModal.classList.remove("hidden");
+        modalGiftName.textContent = gift.nombre;
+        guestNameInput.value = "";
+        giftQuantityInput.value = "1";
 
+        reservationModal.dataset.giftId = gift.id;
+        reservationModal.dataset.giftName = gift.nombre;
+        reservationModal.dataset.giftUnit = gift.unidad;
 
+        reservationModal.classList.remove("hidden");
+    });
 
-});
     return article;
-  
 }
-
 /**
  * Lee regalos.json y muestra sus elementos en la página.
  */
