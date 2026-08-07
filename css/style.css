@@ -655,3 +655,23 @@ main {
     color: white;
     background: linear-gradient(90deg, #934cff, #24c8f0);
 }
+/* Misión ya reservada / bloqueada */
+.gift-button:disabled {
+    background: linear-gradient(135deg, #7a1025, #e63946);
+    border: 1px solid rgba(255, 90, 110, 0.65);
+    color: #ffffff;
+
+    box-shadow:
+        0 0 12px rgba(230, 57, 70, 0.45),
+        0 0 28px rgba(180, 20, 45, 0.25);
+
+    cursor: not-allowed;
+    opacity: 0.85;
+}
+
+.gift-button:disabled:hover {
+    transform: none;
+    box-shadow:
+        0 0 12px rgba(230, 57, 70, 0.45),
+        0 0 28px rgba(180, 20, 45, 0.25);
+}

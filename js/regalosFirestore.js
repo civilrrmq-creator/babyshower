@@ -1,7 +1,11 @@
 import { db } from "./firebase.js";
+
 import {
     collection,
-    getDocs
+    getDocs,
+    doc,
+    updateDoc,
+    onSnapshot
 } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
 
 /**
@@ -15,4 +19,28 @@ export async function obtenerRegalos() {
         id: documento.id,
         ...documento.data()
     }));
+}
+
+export function escucharRegalos(callback) {
+    const regalosRef = collection(db, "regalos");
+
+    return onSnapshot(regalosRef, (snapshot) => {
+        const regalos = snapshot.docs.map((documento) => ({
+            id: documento.id,
+            ...documento.data()
+        }));
+
+        callback(regalos);
+    });
+}
+/**
+ * Marca un regalo como reservado.
+ */
+export async function marcarRegaloReservado(regaloId, nombreInvitado) {
+    const regaloRef = doc(db, "regalos", regaloId);
+
+    await updateDoc(regaloRef, {
+        estado: "reservado",
+        reservadoPor: nombreInvitado
+    });
 }

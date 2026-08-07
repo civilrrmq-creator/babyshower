@@ -5,7 +5,9 @@
     "descripcion": "Etapas recién nacido, 1 o 2. La marca queda completamente a elección.",
     "categoria": "Cuidado",
     "imagen": "",
-    "estado": "disponible"
+    "estado": "disponible",
+    "unidad": "paquetes",
+    "tipo": "ABIERTO"
   },
   {
     "id": 2,
@@ -13,7 +15,9 @@
     "descripcion": "Preferiblemente en tallas de 0 a 3 y de 3 a 6 meses.",
     "categoria": "Ropa",
     "imagen": "",
-    "estado": "disponible"
+    "estado": "disponible",
+    "unidad": "prendas",
+    "tipo": "ABIERTO"
   },
   {
     "id": 3,
@@ -21,7 +25,9 @@
     "descripcion": "Una manta suave para acompañar al pequeño astronauta.",
     "categoria": "Descanso",
     "imagen": "",
-    "estado": "disponible"
+    "estado": "disponible",
+    "unidad": "mantas",
+    "tipo": "UNICO"
   },
   {
     "id": 4,
@@ -29,6 +35,8 @@
     "descripcion": "Pueden ser de cualquier marca, tamaño o referencia.",
     "categoria": "Alimentación",
     "imagen": "",
-    "estado": "disponible"
+    "estado": "disponible",
+    "unidad": "teteros",
+    "tipo": "UNICO"
   }
 ]

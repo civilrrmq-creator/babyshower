@@ -2,8 +2,9 @@ import { db } from "./firebase.js";
 import { eventoId } from "./eventoActivo.js";
 
 import {
-    addDoc,
     collection,
+    doc,
+    runTransaction,
     serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
 
@@ -14,18 +15,46 @@ export async function guardarReserva({
     cantidad,
     unidad
 }) {
-    const reservasRef = collection(db, "reservas");
+    const regaloRef = doc(db, "regalos", regaloId);
+    const reservaRef = doc(collection(db, "reservas"));
 
-    const documento = await addDoc(reservasRef, {
-        nombreInvitado: nombre,
-        regaloId,
-        regaloNombre,
-        cantidad,
-        unidad,
-        eventoId,
-        estado: "activa",
-        fechaReserva: serverTimestamp()
+    await runTransaction(db, async (transaction) => {
+        const regaloSnapshot = await transaction.get(regaloRef);
+
+        if (!regaloSnapshot.exists()) {
+            throw new Error("REGALO_NO_EXISTE");
+        }
+
+        const regalo = regaloSnapshot.data();
+
+        // Los regalos UNICOS solo pueden reservarse una vez.
+        if (
+            regalo.tipo === "UNICO" &&
+            regalo.estado === "reservado"
+        ) {
+            throw new Error("REGALO_YA_RESERVADO");
+        }
+
+        // Creamos la reserva.
+        transaction.set(reservaRef, {
+            nombreInvitado: nombre,
+            regaloId,
+            regaloNombre,
+            cantidad,
+            unidad,
+            eventoId,
+            estado: "activa",
+            fechaReserva: serverTimestamp()
+        });
+
+        // Solo bloqueamos los regalos UNICOS.
+        if (regalo.tipo === "UNICO") {
+            transaction.update(regaloRef, {
+                estado: "reservado",
+                reservadoPor: nombre
+            });
+        }
     });
 
-    return documento.id;
+    return reservaRef.id;
 }

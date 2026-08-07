@@ -1,5 +1,7 @@
-import { obtenerRegalos } from "./regalosFirestore.js";
-import { guardarReserva } from "./reservasFirestore.js";
+import {
+    obtenerRegalos,
+    escucharRegalos
+} from "./regalosFirestore.js";
 const missionButton = document.querySelector("#mission-button");
 const missionSection = document.querySelector("#mission");
 
@@ -7,7 +9,7 @@ const pageTitle = document.querySelector("#page-title");
 const babyName = document.querySelector("#baby-name");
 const mainMessage = document.querySelector("#main-message");
 const buttonText = document.querySelector("#button-text");
-
+import { guardarReserva } from "./reservasFirestore.js";
 /**
  * Lee la información general del evento
  * desde el archivo data/evento.json.
@@ -60,7 +62,22 @@ loadEventData();
 
 console.log("🚀 Proyecto Nebula iniciado correctamente");
 const giftsContainer = document.querySelector("#gifts-container");
+escucharRegalos((regalos) => {
+    if (!giftsContainer) {
+        return;
+    }
 
+    giftsContainer.innerHTML = "";
+
+    const fragment = document.createDocumentFragment();
+
+    regalos.forEach((gift) => {
+        const card = createGiftCard(gift);
+        fragment.appendChild(card);
+    });
+
+    giftsContainer.appendChild(fragment);
+});
 /**
  * Retorna un emoji según la categoría del regalo.
  */
@@ -105,14 +122,15 @@ confirmReservationButton.addEventListener("click", async () => {
     try {
     confirmReservationButton.disabled = true;
     confirmReservationButton.textContent = "Guardando...";
+await guardarReserva({
+    nombre,
+    regaloId: reservationModal.dataset.giftId,
+    regaloNombre: reservationModal.dataset.giftName,
+    cantidad,
+    unidad: reservationModal.dataset.giftUnit
+});
 
-    await guardarReserva({
-        nombre,
-        regaloId: reservationModal.dataset.giftId,
-        regaloNombre: reservationModal.dataset.giftName,
-        cantidad,
-        unidad: reservationModal.dataset.giftUnit
-    });
+await loadGifts();
 
     alert("🚀 Misión confirmada. Tu reserva quedó guardada.");
 
@@ -145,16 +163,21 @@ function createGiftCard(gift) {
         <p>${gift.descripcion}</p>
 
         <span class="gift-status">
-            ● Disponible
-        </span>
+    ${gift.estado === "reservado"
+        ? `🔒 Reservado por ${gift.reservadoPor || "otro invitado"}`
+        : "● Disponible"}
+</span>
 
-        <button
-            class="gift-button"
-            type="button"
-            data-gift-id="${gift.id}"
-        >
-            Reservar misión
-        </button>
+<button
+    class="gift-button"
+    type="button"
+    data-gift-id="${gift.id}"
+    ${gift.estado === "reservado" ? "disabled" : ""}
+>
+    ${gift.estado === "reservado"
+        ? "Misión reservada"
+        : "Reservar misión"}
+</button>
     `;
   article.querySelector(".gift-button").addEventListener("click", () => {
 const reservationModal = document.querySelector("#reservation-modal");
