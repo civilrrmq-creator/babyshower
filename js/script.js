@@ -202,7 +202,12 @@ function createGiftCard(gift) {
         modalGiftName.textContent = gift.nombre;
         guestNameInput.value = "";
         giftQuantityInput.value = "1";
-
+giftQuantityInput.readOnly = gift.tipo === "UNICO";
+if (gift.tipo === "UNICO") {
+    giftQuantityInput.title = "Esta misión solo puede reservarse una vez.";
+} else {
+    giftQuantityInput.title = "Puedes elegir cuántas unidades deseas aportar.";
+}
         reservationModal.dataset.giftId = gift.id;
         reservationModal.dataset.giftName = gift.nombre;
         reservationModal.dataset.giftUnit = gift.unidad;
@@ -239,18 +244,16 @@ if (!gifts.length) {
         });
 
         giftsContainer.appendChild(fragment);
-    } catch (error) {
-        console.error(
-            "Error al cargar regalos.json:",
-            error
-        );
+} catch (error) {
+    console.error("Error al reservar:", error);
 
-        giftsContainer.innerHTML = `
-            <p class="loading-message">
-                No fue posible cargar la lista de regalos.
-            </p>
-        `;
+    if (error.message === "REGALO_YA_RESERVADO") {
+        alert("🔒 Esta misión acaba de ser reservada por otro invitado.");
+        reservationModal.classList.add("hidden");
+    } else {
+        alert("⚠️ No fue posible guardar la reserva. Intenta nuevamente.");
     }
+}
 }
 
 loadGifts();
