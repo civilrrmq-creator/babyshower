@@ -4,7 +4,7 @@ import {
 } from "./regalosFirestore.js";
 const missionButton = document.querySelector("#mission-button");
 const missionSection = document.querySelector("#mission");
-
+import { guardarInvitado } from "./invitadosFirestore.js";
 const pageTitle = document.querySelector("#page-title");
 const babyName = document.querySelector("#baby-name");
 const mainMessage = document.querySelector("#main-message");
@@ -13,7 +13,154 @@ const buttonText = document.querySelector("#button-text");
 const nebulaToast = document.querySelector("#nebula-toast");
 const nebulaToastTitle = document.querySelector("#nebula-toast-title");
 const nebulaToastMessage = document.querySelector("#nebula-toast-message");
+const attendanceForm = document.querySelector("#attendance-form");
+const attendanceSuccess = document.querySelector("#attendance-success");
+const attendanceDetails = document.querySelector("#attendance-details");
+const attendanceOptions = document.querySelectorAll(".attendance-option");
 
+/* Selección Sí / No */
+attendanceOptions.forEach((button) => {
+    button.addEventListener("click", () => {
+
+        attendanceResponse = button.dataset.attendance;
+
+        attendanceOptions.forEach((option) => {
+            option.classList.remove("active");
+        });
+
+        button.classList.add("active");
+
+        if (attendanceResponse === "si") {
+            attendanceDetails.classList.remove("hidden");
+        } else {
+            attendanceDetails.classList.add("hidden");
+        }
+    });
+});
+
+
+/* Guardar confirmación */
+attendanceForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const nombre = document
+        .querySelector("#attendance-name")
+        .value
+        .trim();
+
+    const adultos = Number(
+        document.querySelector("#attendance-adults").value
+    );
+
+    const ninos = Number(
+        document.querySelector("#attendance-children").value
+    );
+
+    const restriccionAlimentaria = document
+        .querySelector("#attendance-food")
+        .value
+        .trim();
+
+    const mensaje = document
+        .querySelector("#attendance-message")
+        .value
+        .trim();
+
+    if (!nombre) {
+        mostrarToast({
+            titulo: "Falta tu nombre",
+            mensaje: "Escribe tu nombre para confirmar asistencia.",
+            tipo: "error",
+            icono: "👤"
+        });
+
+        return;
+    }
+
+    if (!attendanceResponse) {
+        mostrarToast({
+            titulo: "Confirma tu asistencia",
+            mensaje: "Indica si podrás acompañarnos.",
+            tipo: "error",
+            icono: "🚀"
+        });
+
+        return;
+    }
+
+    try {
+        const vaAsistir = attendanceResponse === "si";
+
+        await guardarInvitado({
+            nombre,
+            asiste: vaAsistir,
+            adultos: vaAsistir ? adultos : 0,
+            ninos: vaAsistir ? ninos : 0,
+            restriccionAlimentaria: vaAsistir
+                ? restriccionAlimentaria
+                : "",
+            mensaje
+        });
+
+        mostrarToast({
+            titulo: "¡Confirmación recibida!",
+            mensaje: vaAsistir
+                ? "Nos alegra mucho que puedas acompañarnos."
+                : "Gracias por avisarnos. Te tendremos presente.",
+            tipo: "success",
+            icono: "✨"
+        });
+
+        const successTitle =
+            attendanceSuccess.querySelector("h3");
+
+        const successMessage =
+            attendanceSuccess.querySelector("p");
+
+        const successIcon =
+            attendanceSuccess.querySelector(
+                ".attendance-success-icon"
+            );
+
+        if (vaAsistir) {
+            successIcon.textContent = "✨";
+            successTitle.textContent = "¡Misión confirmada!";
+            successMessage.textContent =
+                `Gracias, ${nombre}. Nos alegra mucho que puedas acompañarnos en esta aventura.`;
+        } else {
+            successIcon.textContent = "🌙";
+            successTitle.textContent = "Respuesta recibida";
+            successMessage.textContent =
+                `Gracias por avisarnos, ${nombre}. Te tendremos presente en esta misión tan especial.`;
+        }
+
+        attendanceForm.classList.add("hidden");
+        attendanceSuccess.classList.remove("hidden");
+
+        attendanceForm.reset();
+        attendanceResponse = "";
+
+        attendanceDetails.classList.add("hidden");
+
+        attendanceOptions.forEach((option) => {
+            option.classList.remove("active");
+        });
+
+    } catch (error) {
+        console.error(
+            "Error al guardar invitado:",
+            error
+        );
+
+        mostrarToast({
+            titulo: "No pudimos registrar tu respuesta",
+            mensaje: "Intenta nuevamente en unos segundos.",
+            tipo: "error",
+            icono: "⚠️"
+        });
+    }
+});
+let attendanceResponse = "";
 function mostrarToast({
     titulo,
     mensaje,
@@ -128,11 +275,7 @@ function getGiftIcon(category) {
 const reservationModal = document.querySelector("#reservation-modal");
 const cancelReservationButton = document.querySelector("#cancel-reservation");
 const confirmReservationButton = document.querySelector("#confirm-reservation");
-const closeReservationButton = document.querySelector("#close-reservation");
 cancelReservationButton.addEventListener("click", () => {
-    reservationModal.classList.add("hidden");
-});
-closeReservationButton.addEventListener("click", () => {
     reservationModal.classList.add("hidden");
 });
 reservationModal.addEventListener("click", (event) => {
@@ -278,6 +421,7 @@ if (gift.tipo === "UNICO") {
         reservationModal.dataset.giftUnit = gift.unidad;
 
         reservationModal.classList.remove("hidden");
+        guestNameInput.focus();
     });
 
     return article;

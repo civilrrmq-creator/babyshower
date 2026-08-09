@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Panel de invitados | Showerfest 🚀</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        body {
+            min-height: 100vh;
+            padding: 40px 20px;
+
+            background:
+                radial-gradient(
+                    circle at top left,
+                    rgba(35, 213, 255, 0.12),
+                    transparent 35%
+                ),
+                radial-gradient(
+                    circle at top right,
+                    rgba(147, 76, 255, 0.16),
+                    transparent 35%
+                ),
+                #060817;
+
+            color: #ffffff;
+        }
+
+        .admin-page {
+            width: min(1200px, 100%);
+            margin: 0 auto;
+        }
+
+        .admin-header {
+            margin-bottom: 32px;
+        }
+
+        .admin-eyebrow {
+            display: block;
+            margin-bottom: 10px;
+
+            color: #23d5ff;
+            font-family: "Orbitron", sans-serif;
+            font-size: 13px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+        }
+
+        .admin-header h1 {
+            margin: 0 0 10px;
+
+            font-family: "Orbitron", sans-serif;
+            font-size: clamp(30px, 5vw, 52px);
+        }
+
+        .admin-header p {
+            margin: 0;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .admin-summary {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+
+        .summary-card {
+            padding: 20px;
+
+            border: 1px solid rgba(35, 213, 255, 0.2);
+            border-radius: 18px;
+
+            background: rgba(16, 20, 70, 0.72);
+
+            box-shadow:
+                0 12px 30px rgba(0, 0, 0, 0.22);
+        }
+
+        .summary-card span {
+            display: block;
+
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 13px;
+        }
+
+        .summary-card strong {
+            display: block;
+            margin-top: 8px;
+
+            font-family: "Orbitron", sans-serif;
+            font-size: 28px;
+        }
+
+        .admin-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 22px;
+        }
+
+        .filter-button {
+            padding: 10px 16px;
+
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 999px;
+
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.05);
+
+            cursor: pointer;
+        }
+
+        .filter-button.active {
+            border-color: #23d5ff;
+            background: rgba(35, 213, 255, 0.12);
+        }
+
+        .guests-list {
+            display: grid;
+            gap: 16px;
+        }
+
+        .guest-card {
+            padding: 22px;
+
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 18px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(19, 20, 65, 0.92),
+                    rgba(8, 10, 34, 0.96)
+                );
+        }
+
+        .guest-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 14px;
+        }
+
+        .guest-name {
+            margin: 0;
+
+            font-family: "Orbitron", sans-serif;
+            font-size: 18px;
+        }
+
+        .guest-status {
+            padding: 6px 10px;
+            border-radius: 999px;
+
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .guest-status.yes {
+            color: #8dffd1;
+            background: rgba(0, 255, 170, 0.1);
+        }
+
+        .guest-status.no {
+            color: #d5b9ff;
+            background: rgba(155, 99, 255, 0.12);
+        }
+
+        .guest-data {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        .guest-data div {
+            padding: 12px;
+
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .guest-data span {
+            display: block;
+
+            margin-bottom: 5px;
+
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 11px;
+            text-transform: uppercase;
+        }
+
+        .guest-data strong {
+            font-size: 14px;
+        }
+
+        .guest-message {
+            margin-top: 14px;
+            padding: 14px;
+
+            border-left: 3px solid rgba(35, 213, 255, 0.6);
+            border-radius: 8px;
+
+            color: rgba(255, 255, 255, 0.76);
+            background: rgba(35, 213, 255, 0.04);
+        }
+
+        .admin-loading {
+            padding: 30px;
+            text-align: center;
+
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        @media (max-width: 850px) {
+            .admin-summary {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .guest-data {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 560px) {
+            body {
+                padding: 24px 14px;
+            }
+
+            .admin-summary {
+                grid-template-columns: 1fr;
+            }
+
+            .guest-top {
+                flex-direction: column;
+            }
+
+            .guest-data {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="admin-page">
+
+        <header class="admin-header">
+
+            <span class="admin-eyebrow">
+                Centro de comando
+            </span>
+
+            <h1>
+                Panel de invitados
+            </h1>
+
+            <p>
+                Consulta confirmaciones, acompañantes
+                y respuestas del Showerfest.
+            </p>
+
+        </header>
+
+        <section class="admin-summary">
+
+            <article class="summary-card">
+                <span>Respuestas</span>
+                <strong id="summary-total">0</strong>
+            </article>
+
+            <article class="summary-card">
+                <span>Asistirán</span>
+                <strong id="summary-yes">0</strong>
+            </article>
+
+            <article class="summary-card">
+                <span>Adultos</span>
+                <strong id="summary-adults">0</strong>
+            </article>
+
+            <article class="summary-card">
+                <span>Niños</span>
+                <strong id="summary-children">0</strong>
+            </article>
+
+        </section>
+
+        <div class="admin-filters">
+
+            <button
+                type="button"
+                class="filter-button active"
+                data-filter="todos"
+            >
+                Todos
+            </button>
+
+            <button
+                type="button"
+                class="filter-button"
+                data-filter="si"
+            >
+                🚀 Asistirán
+            </button>
+
+            <button
+                type="button"
+                class="filter-button"
+                data-filter="no"
+            >
+                🌙 No asistirán
+            </button>
+
+            <button
+                type="button"
+                class="filter-button"
+                data-filter="familia-2026"
+            >
+                Familia
+            </button>
+
+            <button
+                type="button"
+                class="filter-button"
+                data-filter="amigos-2026"
+            >
+                Amigos
+            </button>
+
+        </div>
+
+        <section
+            class="guests-list"
+            id="guests-list"
+        >
+
+            <p class="admin-loading">
+                Cargando invitados...
+            </p>
+
+        </section>
+
+    </main>
+
+    <script type="module" src="js/admin.js"></script>
+
+</body>
+
+</html>

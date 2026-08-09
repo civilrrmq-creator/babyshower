@@ -79,7 +79,143 @@
 
         </section>
 <section class="gifts-section" id="gifts">
+<section class="attendance-section" id="attendance">
 
+    <div class="section-content">
+
+        <span class="section-label">
+            Confirmación de misión
+        </span>
+
+        <h2>
+            ¿Nos acompañas en esta aventura?
+        </h2>
+
+        <p>
+            Confirma tu asistencia para ayudarnos a preparar
+            todo para este día tan especial.
+        </p>
+
+        <form class="attendance-form" id="attendance-form">
+
+            <div class="form-group">
+                <label for="attendance-name">
+                    Tu nombre
+                </label>
+
+                <input
+                    type="text"
+                    id="attendance-name"
+                    placeholder="Escribe tu nombre"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label>
+                    ¿Asistirás?
+                </label>
+
+                <div class="option-buttons">
+                    <button
+                        type="button"
+                        class="attendance-option"
+                        data-attendance="si"
+                    >
+                        🚀 Sí, estaré allí
+                    </button>
+
+                    <button
+                        type="button"
+                        class="attendance-option"
+                        data-attendance="no"
+                    >
+                        🌙 No podré asistir
+                    </button>
+                </div>
+            </div>
+
+            <div
+                class="attendance-details hidden"
+                id="attendance-details"
+            >
+
+                <div class="form-group">
+                    <label for="attendance-adults">
+                        Adultos
+                    </label>
+
+                    <input
+                        type="number"
+                        id="attendance-adults"
+                        value="1"
+                        min="1"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="attendance-children">
+                        Niños
+                    </label>
+
+                    <input
+                        type="number"
+                        id="attendance-children"
+                        value="0"
+                        min="0"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="attendance-food">
+                        Restricción alimentaria
+                        <span>(opcional)</span>
+                    </label>
+
+                    <input
+                        type="text"
+                        id="attendance-food"
+                        placeholder="Ej. vegetariano, alergias..."
+                    >
+                </div>
+
+            </div>
+
+            <div class="form-group">
+                <label for="attendance-message">
+                    Mensaje para Thiago
+                    <span>(opcional)</span>
+                </label>
+
+                <textarea
+                    id="attendance-message"
+                    rows="4"
+                    placeholder="Déjanos unas palabras especiales..."
+                ></textarea>
+            </div>
+
+            <button
+                type="submit"
+                class="attendance-submit"
+            >
+                Confirmar asistencia
+            </button>
+
+        </form>
+<div class="attendance-success hidden" id="attendance-success">
+            <div class="attendance-success-icon">✨</div>
+
+            <h3>Misión confirmada</h3>
+
+            <p>
+                Gracias por confirmar tu asistencia.
+                Nos alegra mucho compartir esta aventura contigo.
+            </p>
+        </div>
+
+    </div>
+
+</section>
     <div class="section-heading">
 
         <span class="section-label">
@@ -125,14 +261,6 @@
 <div class="modal-overlay hidden" id="reservation-modal">
 
     <div class="reservation-modal">
-<button
-    class="modal-close"
-    id="close-reservation"
-    type="button"
-    aria-label="Cerrar"
->
-    ✕
-</button>
         <h2>🚀 Reservar misión</h2>
 
         <p id="modal-gift-name"></p>
