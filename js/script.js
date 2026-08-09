@@ -8,8 +8,38 @@ const missionSection = document.querySelector("#mission");
 const pageTitle = document.querySelector("#page-title");
 const babyName = document.querySelector("#baby-name");
 const mainMessage = document.querySelector("#main-message");
-const buttonText = document.querySelector("#button-text");
 import { guardarReserva } from "./reservasFirestore.js";
+const buttonText = document.querySelector("#button-text");
+const nebulaToast = document.querySelector("#nebula-toast");
+const nebulaToastTitle = document.querySelector("#nebula-toast-title");
+const nebulaToastMessage = document.querySelector("#nebula-toast-message");
+
+function mostrarToast({
+    titulo,
+    mensaje,
+    tipo = "success",
+    icono = "🚀"
+}) {
+    if (!nebulaToast) {
+        return;
+    }
+
+    const iconElement = nebulaToast.querySelector(".nebula-toast-icon");
+
+    nebulaToastTitle.textContent = titulo;
+    nebulaToastMessage.textContent = mensaje;
+
+    if (iconElement) {
+        iconElement.textContent = icono;
+    }
+
+    nebulaToast.classList.toggle("error", tipo === "error");
+    nebulaToast.classList.remove("hidden");
+
+    setTimeout(() => {
+        nebulaToast.classList.add("hidden");
+    }, 3500);
+}
 /**
  * Lee la información general del evento
  * desde el archivo data/evento.json.
@@ -98,27 +128,52 @@ function getGiftIcon(category) {
 const reservationModal = document.querySelector("#reservation-modal");
 const cancelReservationButton = document.querySelector("#cancel-reservation");
 const confirmReservationButton = document.querySelector("#confirm-reservation");
+const closeReservationButton = document.querySelector("#close-reservation");
 cancelReservationButton.addEventListener("click", () => {
     reservationModal.classList.add("hidden");
 });
+closeReservationButton.addEventListener("click", () => {
+    reservationModal.classList.add("hidden");
+});
+reservationModal.addEventListener("click", (event) => {
+    if (event.target === reservationModal) {
+        reservationModal.classList.add("hidden");
+    }
+});
 
+document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+        reservationModal.classList.add("hidden");
+    }
+});
 confirmReservationButton.addEventListener("click", async () => {
     const guestNameInput = document.querySelector("#guest-name");
     const giftQuantityInput = document.querySelector("#gift-quantity");
 
-    const nombre = guestNameInput.value.trim();
-    const cantidad = Number(giftQuantityInput.value);
+   const nombre = guestNameInput.value.trim();
+const cantidad = Number(giftQuantityInput.value);
 
-    if (!nombre) {
-        alert("Escribe tu nombre.");
-        return;
-    }
+if (!nombre) {
+    mostrarToast({
+        titulo: "Falta tu nombre",
+        mensaje: "Escribe tu nombre antes de confirmar la misión.",
+        tipo: "error",
+        icono: "👤"
+    });
 
-    if (!Number.isInteger(cantidad) || cantidad <= 0) {
-        alert("Escribe una cantidad válida.");
-        return;
-    }
+    return;
+}
 
+if (!Number.isInteger(cantidad) || cantidad <= 0) {
+    mostrarToast({
+        titulo: "Cantidad inválida",
+        mensaje: "Escribe una cantidad mayor que cero.",
+        tipo: "error",
+        icono: "⚠️"
+    });
+
+    return;
+}
     try {
         confirmReservationButton.disabled = true;
         confirmReservationButton.textContent = "Guardando...";
@@ -131,14 +186,24 @@ confirmReservationButton.addEventListener("click", async () => {
             unidad: reservationModal.dataset.giftUnit
         });
 
-        alert("🚀 Misión confirmada. Tu reserva quedó guardada.");
+        mostrarToast({
+    titulo: "¡Misión confirmada!",
+    mensaje: "Tu reserva quedó guardada correctamente.",
+    tipo: "success",
+    icono: "🚀"
+});
 
         reservationModal.classList.add("hidden");
 
     } catch (error) {
         console.error("Error al reservar:", error);
 
-        alert("🔒 Esta misión acaba de ser reservada por otro invitado.");
+        mostrarToast({
+    titulo: "Misión bloqueada",
+    mensaje: "Esta misión acaba de ser reservada por otro invitado.",
+    tipo: "error",
+    icono: "🔒"
+});
 
         reservationModal.classList.add("hidden");
 
@@ -247,11 +312,22 @@ if (!gifts.length) {
 } catch (error) {
     console.error("Error al reservar:", error);
 
-    if (error.message === "REGALO_YA_RESERVADO") {
-        alert("🔒 Esta misión acaba de ser reservada por otro invitado.");
-        reservationModal.classList.add("hidden");
+if (error.message === "REGALO_YA_RESERVADO") {
+    mostrarToast({
+        titulo: "Misión reservada",
+        mensaje: "Esta misión acaba de ser reservada por otro invitado.",
+        tipo: "error",
+        icono: "🔒"
+    });
+
+    reservationModal.classList.add("hidden");
     } else {
-        alert("⚠️ No fue posible guardar la reserva. Intenta nuevamente.");
+        mostrarToast({
+    titulo: "Error de conexión",
+    mensaje: "No fue posible guardar la reserva. Intenta nuevamente.",
+    tipo: "error",
+    icono: "⚠️"
+});
     }
 }
 }
