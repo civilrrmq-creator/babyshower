@@ -13,6 +13,9 @@ import {
     updateDoc,
     deleteDoc,
     doc,
+    getDocs,
+    writeBatch,
+    deleteField,
     serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
 
@@ -541,47 +544,64 @@ function renderizarInvitados(lista) {
     guestsList.innerHTML = "";
 
     if (!lista.length) {
-        guestsList.innerHTML = `
-            <p class="admin-loading">
-                No se encontraron invitados.
-            </p>
-        `;
+        const mensajeVacio =
+            document.createElement("p");
+
+        mensajeVacio.classList.add(
+            "admin-loading"
+        );
+
+        mensajeVacio.textContent =
+            "No se encontraron invitados.";
+
+        guestsList.appendChild(
+            mensajeVacio
+        );
 
         return;
     }
 
+
     const fragment =
         document.createDocumentFragment();
 
+
     lista.forEach((invitado) => {
+
         const row =
-            document.createElement("article");
+            document.createElement(
+                "article"
+            );
 
         row.classList.add(
             "guest-row"
         );
 
+
         const asiste =
             invitado.asiste === true;
+
+
+        /* =========================
+           ESTRUCTURA SEGURA
+        ========================= */
 
         row.innerHTML = `
             <div class="guest-row-main">
 
                 <div class="guest-row-name">
-                    <strong>
-                        ${invitado.nombre || "Sin nombre"}
+
+                    <strong class="guest-safe-name">
                     </strong>
 
-                    <span>
-                        ${
-                            invitado.eventoId ||
-                            "Sin evento"
-                        }
+                    <span class="guest-safe-event">
                     </span>
+
                 </div>
 
 
                 <div class="guest-row-status">
+
                     <span
                         class="guest-status ${
                             asiste
@@ -595,39 +615,53 @@ function renderizarInvitados(lista) {
                                 : "🌙 No asistirá"
                         }
                     </span>
+
                 </div>
 
 
                 <div class="guest-row-count">
-                    <span>Adultos</span>
+
+                    <span>
+                        Adultos
+                    </span>
+
                     <strong>
                         ${
                             asiste
-                                ? invitado.adultos || 0
+                                ? Number(
+                                    invitado.adultos || 0
+                                )
                                 : 0
                         }
                     </strong>
+
                 </div>
 
 
                 <div class="guest-row-count">
-                    <span>Niños</span>
+
+                    <span>
+                        Niños
+                    </span>
+
                     <strong>
                         ${
                             asiste
-                                ? invitado.ninos || 0
+                                ? Number(
+                                    invitado.ninos || 0
+                                )
                                 : 0
                         }
                     </strong>
+
                 </div>
 
 
                 <div class="guest-row-date">
-                    <span>
-                        ${formatearFecha(
-                            invitado.fechaRegistro
-                        )}
+
+                    <span class="guest-safe-date">
                     </span>
+
                 </div>
 
 
@@ -636,7 +670,6 @@ function renderizarInvitados(lista) {
                     <button
                         type="button"
                         class="guest-edit-button"
-                        data-id="${invitado.id}"
                     >
                         ✏️ Editar
                     </button>
@@ -644,7 +677,6 @@ function renderizarInvitados(lista) {
                     <button
                         type="button"
                         class="guest-delete-button"
-                        data-id="${invitado.id}"
                     >
                         🗑️ Eliminar
                     </button>
@@ -652,36 +684,149 @@ function renderizarInvitados(lista) {
                 </div>
 
             </div>
-
-
-            ${
-                invitado.restriccionAlimentaria
-                    ? `
-                        <div class="guest-row-extra">
-                            <strong>
-                                Restricción:
-                            </strong>
-                            ${invitado.restriccionAlimentaria}
-                        </div>
-                    `
-                    : ""
-            }
-
-
-            ${
-                invitado.mensaje
-                    ? `
-                        <div class="guest-row-extra">
-                            <strong>
-                                Mensaje:
-                            </strong>
-                            ${invitado.mensaje}
-                        </div>
-                    `
-                    : ""
-            }
         `;
 
+
+        /* =========================
+           DATOS DEL INVITADO
+           USANDO textContent
+        ========================= */
+
+        const nameElement =
+            row.querySelector(
+                ".guest-safe-name"
+            );
+
+        const eventElement =
+            row.querySelector(
+                ".guest-safe-event"
+            );
+
+        const dateElement =
+            row.querySelector(
+                ".guest-safe-date"
+            );
+
+
+        nameElement.textContent =
+            invitado.nombre ||
+            "Sin nombre";
+
+
+        eventElement.textContent =
+            invitado.eventoId ||
+            "Sin evento";
+
+
+        dateElement.textContent =
+            formatearFecha(
+                invitado.fechaRegistro
+            );
+
+
+        /* =========================
+           RESTRICCIÓN ALIMENTARIA
+        ========================= */
+
+        if (
+            invitado
+                .restriccionAlimentaria
+        ) {
+
+            const restriction =
+                document.createElement(
+                    "div"
+                );
+
+            restriction.classList.add(
+                "guest-row-extra"
+            );
+
+
+            const label =
+                document.createElement(
+                    "strong"
+                );
+
+            label.textContent =
+                "Restricción: ";
+
+
+            const value =
+                document.createElement(
+                    "span"
+                );
+
+            value.textContent =
+                invitado
+                    .restriccionAlimentaria;
+
+
+            restriction.appendChild(
+                label
+            );
+
+            restriction.appendChild(
+                value
+            );
+
+            row.appendChild(
+                restriction
+            );
+        }
+
+
+        /* =========================
+           MENSAJE
+        ========================= */
+
+        if (invitado.mensaje) {
+
+            const message =
+                document.createElement(
+                    "div"
+                );
+
+            message.classList.add(
+                "guest-row-extra"
+            );
+
+
+            const label =
+                document.createElement(
+                    "strong"
+                );
+
+            label.textContent =
+                "Mensaje: ";
+
+
+            const value =
+                document.createElement(
+                    "span"
+                );
+
+            value.textContent =
+                invitado.mensaje;
+
+
+            message.appendChild(
+                label
+            );
+
+            message.appendChild(
+                value
+            );
+
+            row.appendChild(
+                message
+            );
+        }
+
+
+        /* =========================
+           BOTONES
+        ========================= */
 
         const editButton =
             row.querySelector(
@@ -697,9 +842,11 @@ function renderizarInvitados(lista) {
         editButton.addEventListener(
             "click",
             () => {
+
                 editarInvitado(
                     invitado.id
                 );
+
             }
         );
 
@@ -707,10 +854,12 @@ function renderizarInvitados(lista) {
         deleteButton.addEventListener(
             "click",
             () => {
+
                 eliminarInvitado(
                     invitado.id,
                     deleteButton
                 );
+
             }
         );
 
@@ -719,6 +868,7 @@ function renderizarInvitados(lista) {
             row
         );
     });
+
 
     guestsList.appendChild(
         fragment
@@ -768,6 +918,10 @@ async function eliminarInvitado(
     invitadoId,
     button
 ) {
+    /*
+     * Primer clic:
+     * pedir confirmación.
+     */
     if (
         button.dataset.confirmDelete !==
         "true"
@@ -781,8 +935,178 @@ async function eliminarInvitado(
         return;
     }
 
+
+    const invitado =
+        invitados.find(
+            (item) =>
+                item.id === invitadoId
+        );
+
+
+    if (!invitado) {
+        mostrarEstado(
+            "No se encontró el invitado."
+        );
+
+        return;
+    }
+
+
     try {
-        await deleteDoc(
+        /*
+         * Traemos las reservas.
+         *
+         * Como el panel es privado y hay
+         * pocos registros, podemos leerlas
+         * y filtrar aquí sin crear índices
+         * adicionales.
+         */
+        const reservasSnapshot =
+            await getDocs(
+                collection(
+                    db,
+                    "reservas"
+                )
+            );
+
+
+        const reservasInvitado =
+            reservasSnapshot.docs
+                .map((documento) => ({
+                    id: documento.id,
+                    ...documento.data()
+                }))
+                .filter(
+                    (reserva) =>
+                        reserva.nombreInvitado ===
+                            invitado.nombre
+                        &&
+                        reserva.eventoId ===
+                            invitado.eventoId
+                );
+
+
+        /*
+         * Usamos un batch para que
+         * la limpieza sea conjunta.
+         */
+        const batch =
+            writeBatch(db);
+
+
+        for (
+            const reserva
+            of reservasInvitado
+        ) {
+
+            /*
+             * Buscar el regalo.
+             *
+             * Primero por ID real.
+             * Como respaldo, por nombre
+             * para reservas antiguas.
+             */
+            const regalo =
+                regalos.find(
+                    (item) =>
+                        String(item.id) ===
+                            String(reserva.regaloId)
+                        ||
+                        item.nombre ===
+                            reserva.regaloNombre
+                );
+
+
+            if (regalo) {
+
+                const regaloRef =
+                    doc(
+                        db,
+                        "regalos",
+                        regalo.id
+                    );
+
+
+                /*
+                 * REGALO ÚNICO
+                 *
+                 * Volvemos a dejarlo
+                 * disponible.
+                 */
+                if (
+                    regalo.tipo ===
+                    "UNICO"
+                ) {
+                    batch.update(
+                        regaloRef,
+                        {
+                            estado:
+                                "disponible",
+
+                            reservadoPor:
+                                deleteField()
+                        }
+                    );
+                }
+
+
+                /*
+                 * REGALO ABIERTO
+                 *
+                 * Restamos la cantidad
+                 * que había reservado
+                 * esta persona.
+                 */
+                if (
+                    regalo.tipo ===
+                    "ABIERTO"
+                ) {
+                    const cantidadActual =
+                        Number(
+                            regalo
+                                .cantidadReservada ||
+                            0
+                        );
+
+                    const cantidadReserva =
+                        Number(
+                            reserva.cantidad ||
+                            0
+                        );
+
+                    batch.update(
+                        regaloRef,
+                        {
+                            cantidadReservada:
+                                Math.max(
+                                    0,
+                                    cantidadActual -
+                                        cantidadReserva
+                                )
+                        }
+                    );
+                }
+            }
+
+
+            /*
+             * Eliminar la reserva.
+             */
+            batch.delete(
+                doc(
+                    db,
+                    "reservas",
+                    reserva.id
+                )
+            );
+        }
+
+
+        /*
+         * Finalmente eliminar
+         * al invitado.
+         */
+        batch.delete(
             doc(
                 db,
                 "invitados",
@@ -790,22 +1114,28 @@ async function eliminarInvitado(
             )
         );
 
+
+        await batch.commit();
+
+
         mostrarEstado(
-            "Invitado eliminado."
+            `Invitado eliminado y ${
+                reservasInvitado.length
+            } reserva(s) liberada(s).`
         );
+
 
     } catch (error) {
         console.error(
-            "Error al eliminar invitado:",
+            "Error al eliminar invitado y liberar reservas:",
             error
         );
 
         mostrarEstado(
-            "No fue posible eliminar el invitado."
+            "No fue posible eliminar completamente al invitado."
         );
     }
-}
-cancelGuestEdit.addEventListener(
+} cancelGuestEdit.addEventListener(
     "click",
     () => {
         guestEditModal.classList.add(

@@ -27,10 +27,10 @@ export async function obtenerRegalos() {
 
     return snapshot.docs
         .map(
-            (documento) => ({
-                id: documento.id,
-                ...documento.data()
-            })
+        (documento) => ({
+    ...documento.data(),
+    id: documento.id
+})
         )
         .filter(
             (regalo) =>
@@ -59,12 +59,10 @@ export function escucharRegalos(
             const regalos =
                 snapshot.docs
                     .map(
-                        (documento) => ({
-                            id:
-                                documento.id,
-
-                            ...documento.data()
-                        })
+          (documento) => ({
+    ...documento.data(),
+    id: documento.id
+})
                     )
                     .filter(
                         (regalo) =>

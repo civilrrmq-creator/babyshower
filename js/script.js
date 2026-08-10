@@ -17,7 +17,200 @@ const attendanceForm = document.querySelector("#attendance-form");
 const attendanceSuccess = document.querySelector("#attendance-success");
 const attendanceDetails = document.querySelector("#attendance-details");
 const attendanceOptions = document.querySelectorAll(".attendance-option");
+import { db } from "./firebase.js";
+import { eventoId } from "./eventoActivo.js";
 
+import {
+    doc,
+    getDoc
+} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+/* =========================
+   CUENTA REGRESIVA
+========================= */
+
+const countdownDays =
+    document.querySelector("#countdown-days");
+
+const countdownHours =
+    document.querySelector("#countdown-hours");
+
+const countdownMinutes =
+    document.querySelector("#countdown-minutes");
+
+const countdownSeconds =
+    document.querySelector("#countdown-seconds");
+
+let countdownInterval = null;
+
+
+async function iniciarCuentaRegresiva() {
+    try {
+        const eventoRef =
+            doc(
+                db,
+                "eventos",
+                eventoId
+            );
+
+        const eventoSnapshot =
+            await getDoc(
+                eventoRef
+            );
+
+        if (!eventoSnapshot.exists()) {
+            console.error(
+                "No existe el evento:",
+                eventoId
+            );
+
+            return;
+        }
+
+        const evento =
+            eventoSnapshot.data();
+
+        if (
+            !evento.fecha ||
+            !evento.fecha.toDate
+        ) {
+            console.error(
+                "El evento no tiene una fecha válida."
+            );
+
+            return;
+        }
+
+        const fechaEvento =
+            evento.fecha.toDate();
+const countdownDate =
+    document.querySelector("#countdown-date");
+
+if (countdownDate) {
+    countdownDate.textContent =
+        `📅 ${fechaEvento.toLocaleDateString(
+            "es-CO",
+            {
+                weekday: "long",
+                day: "numeric",
+                month: "long",
+                year: "numeric"
+            }
+        )} · ${fechaEvento.toLocaleTimeString(
+            "es-CO",
+            {
+                hour: "numeric",
+                minute: "2-digit",
+                hour12: true
+            }
+        )}`;
+}
+
+        function actualizarContador() {
+            const ahora =
+                new Date();
+
+            const diferencia =
+                fechaEvento.getTime() -
+                ahora.getTime();
+
+
+            if (diferencia <= 0) {
+                countdownDays.textContent =
+                    "00";
+
+                countdownHours.textContent =
+                    "00";
+
+                countdownMinutes.textContent =
+                    "00";
+
+                countdownSeconds.textContent =
+                    "00";
+
+                clearInterval(
+                    countdownInterval
+                );
+
+                return;
+            }
+
+
+            const dias =
+                Math.floor(
+                    diferencia /
+                    (1000 * 60 * 60 * 24)
+                );
+
+
+            const horas =
+                Math.floor(
+                    (
+                        diferencia /
+                        (1000 * 60 * 60)
+                    ) % 24
+                );
+
+
+            const minutos =
+                Math.floor(
+                    (
+                        diferencia /
+                        (1000 * 60)
+                    ) % 60
+                );
+
+
+            const segundos =
+                Math.floor(
+                    (
+                        diferencia /
+                        1000
+                    ) % 60
+                );
+
+
+            countdownDays.textContent =
+                String(dias)
+                    .padStart(2, "0");
+
+            countdownHours.textContent =
+                String(horas)
+                    .padStart(2, "0");
+
+            countdownMinutes.textContent =
+                String(minutos)
+                    .padStart(2, "0");
+
+            countdownSeconds.textContent =
+                String(segundos)
+                    .padStart(2, "0");
+        }
+
+
+        actualizarContador();
+
+
+        countdownInterval =
+            setInterval(
+                actualizarContador,
+                1000
+            );
+
+
+        console.log(
+            "Cuenta regresiva:",
+            eventoId,
+            fechaEvento
+        );
+
+    } catch (error) {
+        console.error(
+            "Error al iniciar cuenta regresiva:",
+            error
+        );
+    }
+}
+iniciarCuentaRegresiva();
 /* Selección Sí / No */
 attendanceOptions.forEach((button) => {
     button.addEventListener("click", () => {
@@ -90,6 +283,34 @@ attendanceForm.addEventListener("submit", async (event) => {
 
     try {
         const vaAsistir = attendanceResponse === "si";
+nombreInvitadoConfirmado = nombre;
+
+mostrarToast({
+    titulo: vaAsistir
+        ? "¡Nos vemos en la misión! 🚀"
+        : "Gracias por avisarnos 💜",
+
+    mensaje: vaAsistir
+        ? "Nos alegra muchísimo que puedas acompañarnos. Ahora puedes elegir un regalo para Thiago."
+        : "Lamentamos no poder compartir este momento contigo. Si aun así deseas acompañarnos con un regalo para Thiago, lo recibiremos con muchísimo cariño y gratitud.",
+
+    tipo: "success",
+
+    icono: vaAsistir
+        ? "🚀"
+        : "💜"
+});
+
+
+const giftsSection =
+    document.querySelector("#gifts");
+
+setTimeout(() => {
+    giftsSection?.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
+}, 6500);
 
         await guardarInvitado({
             nombre,
@@ -102,20 +323,32 @@ attendanceForm.addEventListener("submit", async (event) => {
             mensaje
         });
 nombreInvitadoConfirmado = nombre;
+mostrarToast({
+    titulo: vaAsistir
+        ? "¡Nos vemos en la misión! 🚀"
+        : "Gracias por avisarnos 💜",
 
-const giftsSection = document.querySelector("#gifts");
+    mensaje: vaAsistir
+        ? "Nos alegra muchísimo que puedas acompañarnos. Ahora puedes elegir un regalo para Thiago."
+        : "Lamentamos no poder compartir este momento contigo. Si aun así deseas acompañarnos con un regalo para Thiago, lo recibiremos con muchísimo cariño y gratitud.",
 
+    tipo: "success",
+
+    icono: vaAsistir
+        ? "🚀"
+        : "💜"
+});
 setTimeout(() => {
     giftsSection?.scrollIntoView({
         behavior: "smooth",
         block: "start"
     });
-}, 900);
+}, 6500);
         mostrarToast({
             titulo: "¡Confirmación recibida!",
             mensaje: vaAsistir
                 ? "Nos alegra mucho que puedas acompañarnos."
-                : "Gracias por avisarnos. Te tendremos presente.",
+                : "Lamentamos no poder compartir este momento contigo. Si aun así deseas acompañarnos con un regalo para Thiago, lo recibiremos con muchísimo cariño y gratitud.",
             tipo: "success",
             icono: "✨"
         });
@@ -138,7 +371,7 @@ setTimeout(() => {
                 `Gracias, ${nombre}. Nos alegra mucho que puedas acompañarnos en esta aventura.`;
         } else {
             successIcon.textContent = "🌙";
-            successTitle.textContent = "Respuesta recibida";
+            successTitle.textContent = "Gracias por avisarnos 💜";
             successMessage.textContent =
                 `Gracias por avisarnos, ${nombre}. Te tendremos presente en esta misión tan especial.`;
         }
@@ -195,7 +428,7 @@ function mostrarToast({
 
     setTimeout(() => {
         nebulaToast.classList.add("hidden");
-    }, 3500);
+    }, 6500);
 }
 /**
  * Lee la información general del evento
@@ -233,11 +466,25 @@ async function loadEventData() {
     }
 }
 
-/**
- * Lleva al visitante hacia la siguiente sección.
- */
-if (missionButton && missionSection) {
+const countdownSection =
+    document.querySelector("#countdown");
+
+const countdownContinue =
+    document.querySelector("#countdown-continue");
+
+
+if (missionButton && countdownSection) {
     missionButton.addEventListener("click", () => {
+        countdownSection.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
+    });
+}
+
+
+if (countdownContinue && missionSection) {
+    countdownContinue.addEventListener("click", () => {
         missionSection.scrollIntoView({
             behavior: "smooth",
             block: "start"
@@ -413,18 +660,49 @@ function createGiftCard(gift) {
     const giftButton = article.querySelector(".gift-button");
 
     giftButton.addEventListener("click", () => {
-        const modalGiftName = document.querySelector("#modal-gift-name");
-        const guestNameInput = document.querySelector("#guest-name");
-        const giftQuantityInput = document.querySelector("#gift-quantity");
 
-      modalGiftName.textContent = gift.nombre;
+    if (!nombreInvitadoConfirmado) {
+        mostrarToast({
+            titulo: "Antes de continuar 💜",
+            mensaje: "Cuéntanos primero si podremos contar contigo. Después podrás elegir un regalo para Thiago.",
+            tipo: "error",
+            icono: "🚀"
+        });
+
+        document
+            .querySelector("#attendance")
+            ?.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+
+        return;
+    }
+
+    const modalGiftName =
+        document.querySelector("#modal-gift-name");
+
+    const guestNameInput =
+        document.querySelector("#guest-name");
+
+    const giftQuantityInput =
+        document.querySelector("#gift-quantity");
+
+    modalGiftName.textContent = gift.nombre;
 
 guestNameInput.value =
     nombreInvitadoConfirmado || "";
-        giftQuantityInput.value = "1";
-giftQuantityInput.readOnly = gift.tipo === "UNICO";
+
+guestNameInput.readOnly = true;
+
+giftQuantityInput.value = "1";
+
+giftQuantityInput.readOnly =
+    gift.tipo === "UNICO";
+
 if (gift.tipo === "UNICO") {
-    giftQuantityInput.title = "Esta misión solo puede reservarse una vez.";
+    giftQuantityInput.title =
+        "Esta misión solo puede reservarse una vez.";
 } else {
     giftQuantityInput.title = "Puedes elegir cuántas unidades deseas aportar.";
 }
