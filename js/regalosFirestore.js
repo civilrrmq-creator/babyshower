@@ -8,39 +8,101 @@ import {
     onSnapshot
 } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
 
-/**
- * Obtiene todos los regalos guardados en Firestore.
+
+/*
+ * Obtiene los regalos visibles
+ * para la página pública.
  */
 export async function obtenerRegalos() {
-    const regalosRef = collection(db, "regalos");
-    const snapshot = await getDocs(regalosRef);
+    const regalosRef =
+        collection(
+            db,
+            "regalos"
+        );
 
-    return snapshot.docs.map((documento) => ({
-        id: documento.id,
-        ...documento.data()
-    }));
+    const snapshot =
+        await getDocs(
+            regalosRef
+        );
+
+    return snapshot.docs
+        .map(
+            (documento) => ({
+                id: documento.id,
+                ...documento.data()
+            })
+        )
+        .filter(
+            (regalo) =>
+                regalo.activo !== false
+        );
 }
 
-export function escucharRegalos(callback) {
-    const regalosRef = collection(db, "regalos");
 
-    return onSnapshot(regalosRef, (snapshot) => {
-        const regalos = snapshot.docs.map((documento) => ({
-            id: documento.id,
-            ...documento.data()
-        }));
-
-        callback(regalos);
-    });
-}
-/**
- * Marca un regalo como reservado.
+/*
+ * Escucha cambios de regalos
+ * en tiempo real.
  */
-export async function marcarRegaloReservado(regaloId, nombreInvitado) {
-    const regaloRef = doc(db, "regalos", regaloId);
+export function escucharRegalos(
+    callback
+) {
+    const regalosRef =
+        collection(
+            db,
+            "regalos"
+        );
 
-    await updateDoc(regaloRef, {
-        estado: "reservado",
-        reservadoPor: nombreInvitado
-    });
+    return onSnapshot(
+        regalosRef,
+        (snapshot) => {
+
+            const regalos =
+                snapshot.docs
+                    .map(
+                        (documento) => ({
+                            id:
+                                documento.id,
+
+                            ...documento.data()
+                        })
+                    )
+                    .filter(
+                        (regalo) =>
+                            regalo.activo !==
+                            false
+                    );
+
+            callback(
+                regalos
+            );
+        }
+    );
+}
+
+
+/*
+ * Compatibilidad con la lógica
+ * anterior del proyecto.
+ */
+export async function marcarRegaloReservado(
+    regaloId,
+    nombreInvitado
+) {
+    const regaloRef =
+        doc(
+            db,
+            "regalos",
+            regaloId
+        );
+
+    await updateDoc(
+        regaloRef,
+        {
+            estado:
+                "reservado",
+
+            reservadoPor:
+                nombreInvitado
+        }
+    );
 }

@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="css/style.css">
 
     <style>
+
         body {
             min-height: 100vh;
             padding: 40px 20px;
@@ -42,25 +43,35 @@
             color: #ffffff;
         }
 
+
         .admin-page {
             width: min(1200px, 100%);
             margin: 0 auto;
         }
 
+
+        /* =========================
+           CABECERA
+        ========================= */
+
         .admin-header {
             margin-bottom: 32px;
         }
+
 
         .admin-eyebrow {
             display: block;
             margin-bottom: 10px;
 
             color: #23d5ff;
+
             font-family: "Orbitron", sans-serif;
             font-size: 13px;
+
             letter-spacing: 0.18em;
             text-transform: uppercase;
         }
+
 
         .admin-header h1 {
             margin: 0 0 10px;
@@ -69,17 +80,27 @@
             font-size: clamp(30px, 5vw, 52px);
         }
 
+
         .admin-header p {
             margin: 0;
+
             color: rgba(255, 255, 255, 0.7);
         }
+
+
+        /* =========================
+           RESUMEN
+        ========================= */
 
         .admin-summary {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
+
             gap: 16px;
-            margin-bottom: 28px;
+
+            margin-bottom: 42px;
         }
+
 
         .summary-card {
             padding: 20px;
@@ -93,27 +114,264 @@
                 0 12px 30px rgba(0, 0, 0, 0.22);
         }
 
+
         .summary-card span {
             display: block;
 
             color: rgba(255, 255, 255, 0.6);
+
             font-size: 13px;
         }
 
+
         .summary-card strong {
             display: block;
+
             margin-top: 8px;
 
             font-family: "Orbitron", sans-serif;
             font-size: 28px;
         }
 
+
+        /* =========================
+           GESTIÓN DE REGALOS
+        ========================= */
+
+        .admin-gifts {
+            margin-bottom: 55px;
+        }
+
+
+        .admin-section-header {
+            margin-bottom: 22px;
+        }
+
+
+        .admin-section-header h2 {
+            margin: 4px 0 8px;
+
+            font-family: "Orbitron", sans-serif;
+            font-size: 26px;
+        }
+
+
+        .admin-section-header p {
+            margin: 0;
+
+            color: rgba(255, 255, 255, 0.62);
+        }
+
+
+        .gift-admin-form {
+            margin-bottom: 28px;
+            padding: 24px;
+
+            border: 1px solid rgba(35, 213, 255, 0.2);
+            border-radius: 20px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(19, 20, 65, 0.9),
+                    rgba(8, 10, 34, 0.96)
+                );
+        }
+
+
+        .gift-admin-grid {
+            display: grid;
+
+            grid-template-columns: repeat(2, 1fr);
+
+            gap: 18px;
+        }
+
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+
+        .form-group label {
+            display: block;
+
+            margin-bottom: 8px;
+
+            font-weight: 600;
+        }
+
+
+        .form-group label span {
+            color: rgba(255, 255, 255, 0.5);
+
+            font-size: 12px;
+        }
+
+
+        .gift-admin-form input,
+        .gift-admin-form textarea,
+        .gift-admin-form select {
+            width: 100%;
+
+            padding: 14px 16px;
+
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 14px;
+
+            color: #ffffff;
+
+            background: rgba(255, 255, 255, 0.07);
+
+            font: inherit;
+
+            outline: none;
+        }
+
+
+        .gift-admin-form input:focus,
+        .gift-admin-form textarea:focus,
+        .gift-admin-form select:focus {
+            border-color: rgba(35, 213, 255, 0.75);
+
+            box-shadow:
+                0 0 0 3px rgba(35, 213, 255, 0.08);
+        }
+
+
+        .gift-admin-form select option {
+            color: #111111;
+        }
+
+
+        .attendance-submit {
+            width: 100%;
+
+            padding: 15px 20px;
+
+            border: none;
+            border-radius: 14px;
+
+            color: #ffffff;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #934cff,
+                    #24c8f0
+                );
+
+            font: inherit;
+            font-weight: 700;
+
+            cursor: pointer;
+        }
+
+
+        .admin-gifts-list {
+            display: grid;
+
+            gap: 14px;
+        }
+
+
+        .admin-gift-card {
+            padding: 18px 20px;
+
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+
+        .admin-gift-card h3 {
+            margin: 0 0 8px;
+
+            font-family: "Orbitron", sans-serif;
+            font-size: 16px;
+        }
+
+
+        .admin-gift-meta {
+            display: flex;
+            flex-wrap: wrap;
+
+            gap: 8px;
+        }
+
+
+        .admin-gift-meta span {
+            padding: 5px 9px;
+
+            border-radius: 999px;
+
+            color: rgba(255, 255, 255, 0.72);
+
+            background: rgba(255, 255, 255, 0.06);
+
+            font-size: 12px;
+        }
+
+
+        /* =========================
+           BUSCADOR
+        ========================= */
+
+        .admin-search {
+            margin-bottom: 18px;
+        }
+
+
+        .admin-search input {
+            width: min(520px, 100%);
+
+            padding: 14px 18px;
+
+            border: 1px solid rgba(35, 213, 255, 0.25);
+            border-radius: 14px;
+
+            color: #ffffff;
+
+            background: rgba(16, 20, 70, 0.72);
+
+            font: inherit;
+
+            outline: none;
+
+            transition:
+                border-color 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+
+        .admin-search input::placeholder {
+            color: rgba(255, 255, 255, 0.45);
+        }
+
+
+        .admin-search input:focus {
+            border-color: rgba(35, 213, 255, 0.8);
+
+            box-shadow:
+                0 0 0 3px rgba(35, 213, 255, 0.08),
+                0 0 20px rgba(35, 213, 255, 0.12);
+        }
+
+
+        /* =========================
+           FILTROS
+        ========================= */
+
         .admin-filters {
             display: flex;
             flex-wrap: wrap;
+
             gap: 10px;
+
             margin-bottom: 22px;
         }
+
 
         .filter-button {
             padding: 10px 16px;
@@ -122,20 +380,33 @@
             border-radius: 999px;
 
             color: #ffffff;
+
             background: rgba(255, 255, 255, 0.05);
 
             cursor: pointer;
         }
 
+
         .filter-button.active {
             border-color: #23d5ff;
+
             background: rgba(35, 213, 255, 0.12);
+
+            box-shadow:
+                0 0 18px rgba(35, 213, 255, 0.13);
         }
+
+
+        /* =========================
+           INVITADOS
+        ========================= */
 
         .guests-list {
             display: grid;
+
             gap: 16px;
         }
+
 
         .guest-card {
             padding: 22px;
@@ -151,13 +422,18 @@
                 );
         }
 
+
         .guest-top {
             display: flex;
+
             align-items: flex-start;
             justify-content: space-between;
+
             gap: 16px;
+
             margin-bottom: 14px;
         }
+
 
         .guest-name {
             margin: 0;
@@ -166,36 +442,48 @@
             font-size: 18px;
         }
 
+
         .guest-status {
             padding: 6px 10px;
+
             border-radius: 999px;
 
             font-size: 12px;
             font-weight: 700;
         }
 
+
         .guest-status.yes {
             color: #8dffd1;
+
             background: rgba(0, 255, 170, 0.1);
         }
 
+
         .guest-status.no {
             color: #d5b9ff;
+
             background: rgba(155, 99, 255, 0.12);
         }
 
+
         .guest-data {
             display: grid;
+
             grid-template-columns: repeat(4, 1fr);
+
             gap: 12px;
         }
+
 
         .guest-data div {
             padding: 12px;
 
             border-radius: 12px;
+
             background: rgba(255, 255, 255, 0.04);
         }
+
 
         .guest-data span {
             display: block;
@@ -203,33 +491,47 @@
             margin-bottom: 5px;
 
             color: rgba(255, 255, 255, 0.5);
+
             font-size: 11px;
+
             text-transform: uppercase;
         }
+
 
         .guest-data strong {
             font-size: 14px;
         }
 
+
         .guest-message {
             margin-top: 14px;
+
             padding: 14px;
 
             border-left: 3px solid rgba(35, 213, 255, 0.6);
             border-radius: 8px;
 
             color: rgba(255, 255, 255, 0.76);
+
             background: rgba(35, 213, 255, 0.04);
         }
 
+
         .admin-loading {
             padding: 30px;
+
             text-align: center;
 
             color: rgba(255, 255, 255, 0.6);
         }
 
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
         @media (max-width: 850px) {
+
             .admin-summary {
                 grid-template-columns: repeat(2, 1fr);
             }
@@ -239,7 +541,17 @@
             }
         }
 
+
+        @media (max-width: 700px) {
+
+            .gift-admin-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+
         @media (max-width: 560px) {
+
             body {
                 padding: 24px 14px;
             }
@@ -256,12 +568,438 @@
                 grid-template-columns: 1fr;
             }
         }
+/* =========================
+   ACCIONES DE REGALOS
+========================= */
+
+.admin-auth-box {
+    margin-bottom: 28px;
+    padding: 20px;
+
+    border: 1px solid rgba(35, 213, 255, 0.25);
+    border-radius: 18px;
+
+    background: rgba(16, 20, 70, 0.72);
+}
+
+.admin-auth-box p {
+    margin: 0 0 14px;
+
+    color: rgba(255,255,255,0.75);
+}
+
+.admin-action-button,
+.admin-secondary-button,
+.admin-gift-actions button {
+    padding: 10px 14px;
+
+    border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 11px;
+
+    color: #ffffff;
+
+    background: rgba(255,255,255,0.06);
+
+    font: inherit;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.admin-action-button:hover,
+.admin-secondary-button:hover,
+.admin-gift-actions button:hover {
+    border-color: rgba(35, 213, 255, 0.7);
+
+    background: rgba(35, 213, 255, 0.1);
+}
+
+.admin-secondary-button {
+    width: 100%;
+
+    margin-top: 10px;
+}
+
+.admin-gift-header {
+    display: flex;
+    justify-content: space-between;
+
+    gap: 14px;
+}
+
+.admin-gift-description {
+    margin: 14px 0 0;
+
+    color: rgba(255,255,255,0.7);
+
+    line-height: 1.6;
+}
+
+.admin-gift-reserved {
+    margin: 12px 0 0;
+
+    color: #8dffd1;
+}
+
+.admin-gift-actions {
+    display: flex;
+    flex-wrap: wrap;
+
+    gap: 9px;
+
+    margin-top: 18px;
+}
+
+.gift-edit-button {
+    border-color: rgba(35, 213, 255, 0.35) !important;
+}
+
+.gift-toggle-button {
+    border-color: rgba(155, 99, 255, 0.35) !important;
+}
+
+.gift-delete-button {
+    border-color: rgba(255, 80, 110, 0.35) !important;
+}
+
+.gift-delete-button.confirm-delete {
+    border-color: rgba(255, 80, 110, 0.9) !important;
+
+    background: rgba(255, 80, 110, 0.15) !important;
+}
+
+.admin-gift-card.gift-disabled {
+    opacity: 0.55;
+
+    border-style: dashed;
+}
+/* =========================
+   LISTA COMPACTA DE INVITADOS
+========================= */
+
+.guest-row {
+    padding: 16px 18px;
+
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(19,20,65,0.92),
+            rgba(8,10,34,0.96)
+        );
+}
+
+.guest-row-main {
+    display: grid;
+
+    grid-template-columns:
+        minmax(180px, 1.5fr)
+        140px
+        80px
+        80px
+        minmax(150px, 1fr)
+        auto;
+
+    align-items: center;
+
+    gap: 14px;
+}
+
+.guest-row-name strong {
+    display: block;
+
+    font-family: "Orbitron", sans-serif;
+}
+
+.guest-row-name span,
+.guest-row-count span,
+.guest-row-date span {
+    color: rgba(255,255,255,0.55);
+
+    font-size: 12px;
+}
+
+.guest-row-count strong {
+    display: block;
+
+    margin-top: 4px;
+}
+
+.guest-row-actions {
+    display: flex;
+
+    gap: 8px;
+}
+
+.guest-row-actions button {
+    padding: 8px 11px;
+
+    border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 10px;
+
+    color: #ffffff;
+
+    background: rgba(255,255,255,0.05);
+
+    cursor: pointer;
+}
+
+.guest-edit-button {
+    border-color:
+        rgba(35,213,255,0.35) !important;
+}
+
+.guest-delete-button {
+    border-color:
+        rgba(255,80,110,0.35) !important;
+}
+
+.guest-row-extra {
+    margin-top: 12px;
+
+    padding-top: 10px;
+
+    border-top:
+        1px solid rgba(255,255,255,0.07);
+
+    color: rgba(255,255,255,0.72);
+
+    font-size: 13px;
+}
+
+@media (max-width: 900px) {
+
+    .guest-row-main {
+        grid-template-columns:
+            1fr
+            1fr;
+    }
+
+    .guest-row-actions {
+        grid-column:
+            1 / -1;
+    }
+}
+
+@media (max-width: 560px) {
+
+    .guest-row-main {
+        grid-template-columns:
+            1fr;
+    }
+
+    .guest-row-actions {
+        grid-column:
+            auto;
+    }
+}
+/* =========================
+   MODAL EDITAR INVITADO
+========================= */
+
+.admin-guest-modal {
+    position: fixed;
+    inset: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 24px;
+
+    background: rgba(3, 5, 18, 0.82);
+    backdrop-filter: blur(8px);
+
+    z-index: 9999;
+}
+
+.admin-guest-modal.hidden {
+    display: none;
+}
+
+.admin-guest-modal-card {
+    width: min(720px, 100%);
+    max-height: 90vh;
+    overflow-y: auto;
+
+    padding: 28px;
+
+    border: 1px solid rgba(35, 213, 255, 0.28);
+    border-radius: 24px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(18, 18, 62, 0.98),
+            rgba(7, 9, 30, 0.99)
+        );
+
+    box-shadow:
+        0 30px 80px rgba(0, 0, 0, 0.45),
+        0 0 35px rgba(35, 213, 255, 0.10);
+}
+
+.admin-guest-modal-card h2 {
+    margin: 0 0 24px;
+
+    font-family: "Orbitron", sans-serif;
+    font-size: 24px;
+
+    color: #ffffff;
+}
+
+.admin-guest-modal-card .form-group {
+    margin-bottom: 18px;
+}
+
+.admin-guest-modal-card label {
+    display: block;
+    margin-bottom: 8px;
+
+    color: rgba(255, 255, 255, 0.9);
+
+    font-weight: 600;
+}
+
+.admin-guest-modal-card input,
+.admin-guest-modal-card select,
+.admin-guest-modal-card textarea {
+    width: 100%;
+
+    padding: 14px 16px;
+
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 14px;
+
+    color: #ffffff;
+
+    background: rgba(255, 255, 255, 0.07);
+
+    font: inherit;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+}
+
+.admin-guest-modal-card input:focus,
+.admin-guest-modal-card select:focus,
+.admin-guest-modal-card textarea:focus {
+    border-color: rgba(35, 213, 255, 0.75);
+
+    background: rgba(255, 255, 255, 0.09);
+
+    box-shadow:
+        0 0 0 3px rgba(35, 213, 255, 0.08);
+}
+
+.admin-guest-modal-card select option {
+    color: #111111;
+}
+
+.guest-edit-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.admin-guest-modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+
+    margin-top: 24px;
+}
+
+.admin-guest-modal-actions button {
+    padding: 12px 18px;
+
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 12px;
+
+    color: #ffffff;
+
+    font: inherit;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+#cancel-guest-edit {
+    background: rgba(255, 255, 255, 0.06);
+}
+
+#cancel-guest-edit:hover {
+    border-color: rgba(255, 255, 255, 0.35);
+
+    background: rgba(255, 255, 255, 0.10);
+}
+
+#save-guest-edit {
+    border: none;
+
+    background:
+        linear-gradient(
+            90deg,
+            #934cff,
+            #24c8f0
+        );
+
+    box-shadow:
+        0 0 22px rgba(35, 213, 255, 0.12);
+}
+
+#save-guest-edit:hover {
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 0 26px rgba(35, 213, 255, 0.18);
+}
+
+@media (max-width: 650px) {
+    .admin-guest-modal {
+        padding: 14px;
+    }
+
+    .admin-guest-modal-card {
+        padding: 20px;
+        border-radius: 18px;
+    }
+
+    .guest-edit-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-guest-modal-actions {
+        flex-direction: column-reverse;
+    }
+
+    .admin-guest-modal-actions button {
+        width: 100%;
+    }
+}
     </style>
+
 </head>
+
 
 <body>
 
     <main class="admin-page">
+
+
+        <!-- =========================
+             CABECERA
+        ========================= -->
 
         <header class="admin-header">
 
@@ -280,29 +1018,297 @@
 
         </header>
 
+
+        <!-- =========================
+             RESUMEN
+        ========================= -->
+
         <section class="admin-summary">
 
             <article class="summary-card">
-                <span>Respuestas</span>
-                <strong id="summary-total">0</strong>
+
+                <span>
+                    Respuestas
+                </span>
+
+                <strong id="summary-total">
+                    0
+                </strong>
+
             </article>
 
-            <article class="summary-card">
-                <span>Asistirán</span>
-                <strong id="summary-yes">0</strong>
-            </article>
 
             <article class="summary-card">
-                <span>Adultos</span>
-                <strong id="summary-adults">0</strong>
+
+                <span>
+                    Asistirán
+                </span>
+
+                <strong id="summary-yes">
+                    0
+                </strong>
+
             </article>
 
+
             <article class="summary-card">
-                <span>Niños</span>
-                <strong id="summary-children">0</strong>
+
+                <span>
+                    Adultos
+                </span>
+
+                <strong id="summary-adults">
+                    0
+                </strong>
+
+            </article>
+
+
+            <article class="summary-card">
+
+                <span>
+                    Niños
+                </span>
+
+                <strong id="summary-children">
+                    0
+                </strong>
+
             </article>
 
         </section>
+
+
+        <!-- =========================
+             GESTIÓN DE REGALOS
+        ========================= -->
+
+        <section class="admin-gifts">
+
+            <div class="admin-section-header">
+
+                <span class="admin-eyebrow">
+                    Inventario de misión
+                </span>
+
+                <h2>
+                    Gestión de regalos
+                </h2>
+
+                <p>
+                    Agrega nuevos regalos directamente
+                    al Showerfest.
+                </p>
+
+            </div>
+
+
+            <form
+                class="gift-admin-form"
+                id="gift-admin-form"
+            >
+
+                <div class="gift-admin-grid">
+
+                    <div class="form-group">
+
+                        <label for="admin-gift-name">
+                            Nombre del regalo
+                        </label>
+
+                        <input
+                            type="text"
+                            id="admin-gift-name"
+                            placeholder="Ej. Silla para carro"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="admin-gift-category">
+                            Categoría
+                        </label>
+
+                        <select
+                            id="admin-gift-category"
+                            required
+                        >
+
+                            <option value="">
+                                Selecciona una categoría
+                            </option>
+
+                            <option value="Cuidado">
+                                Cuidado
+                            </option>
+
+                            <option value="Ropa">
+                                Ropa
+                            </option>
+
+                            <option value="Descanso">
+                                Descanso
+                            </option>
+
+                            <option value="Alimentación">
+                                Alimentación
+                            </option>
+
+                            <option value="Transporte">
+                                Transporte
+                            </option>
+
+                            <option value="Higiene">
+                                Higiene
+                            </option>
+
+                            <option value="Juguetes">
+                                Juguetes
+                            </option>
+
+                            <option value="Otros">
+                                Otros
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="admin-gift-unit">
+                            Unidad
+                        </label>
+
+                        <input
+                            type="text"
+                            id="admin-gift-unit"
+                            placeholder="Ej. unidades, paquetes, prendas"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="admin-gift-type">
+                            Tipo de regalo
+                        </label>
+
+                        <select
+                            id="admin-gift-type"
+                            required
+                        >
+
+                            <option value="UNICO">
+                                🎁 Único
+                            </option>
+
+                            <option value="ABIERTO">
+                                🚀 Abierto
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="admin-gift-description">
+                        Descripción
+                    </label>
+
+                    <textarea
+                        id="admin-gift-description"
+                        rows="4"
+                        placeholder="Describe brevemente este regalo..."
+                        required
+                    ></textarea>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="admin-gift-image">
+                        Imagen
+                        <span>(opcional)</span>
+                    </label>
+
+                    <input
+                        type="text"
+                        id="admin-gift-image"
+                        placeholder="Ej. images/silla-carro.webp"
+                    >
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="attendance-submit"
+                    id="admin-gift-submit"
+                >
+                    🚀 Agregar regalo
+                </button>
+
+            </form>
+
+
+            <div class="admin-section-header">
+
+                <span class="admin-eyebrow">
+                    Catálogo actual
+                </span>
+
+                <h2>
+                    Regalos registrados
+                </h2>
+
+            </div>
+
+
+            <div
+                class="admin-gifts-list"
+                id="admin-gifts-list"
+            >
+
+                <p class="admin-loading">
+                    Cargando regalos...
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             BUSCADOR DE INVITADOS
+        ========================= -->
+
+        <div class="admin-search">
+
+            <input
+                type="search"
+                id="guest-search"
+                placeholder="🔎 Buscar invitado por nombre..."
+                autocomplete="off"
+            >
+
+        </div>
+
+
+        <!-- =========================
+             FILTROS
+        ========================= -->
 
         <div class="admin-filters">
 
@@ -314,6 +1320,7 @@
                 Todos
             </button>
 
+
             <button
                 type="button"
                 class="filter-button"
@@ -321,6 +1328,7 @@
             >
                 🚀 Asistirán
             </button>
+
 
             <button
                 type="button"
@@ -330,6 +1338,7 @@
                 🌙 No asistirán
             </button>
 
+
             <button
                 type="button"
                 class="filter-button"
@@ -337,6 +1346,7 @@
             >
                 Familia
             </button>
+
 
             <button
                 type="button"
@@ -347,6 +1357,11 @@
             </button>
 
         </div>
+
+
+        <!-- =========================
+             LISTA DE INVITADOS
+        ========================= -->
 
         <section
             class="guests-list"
@@ -359,9 +1374,14 @@
 
         </section>
 
+
     </main>
 
-    <script type="module" src="js/admin.js"></script>
+
+    <script
+        type="module"
+        src="js/admin.js"
+    ></script>
 
 </body>
 
