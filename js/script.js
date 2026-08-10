@@ -101,7 +101,16 @@ attendanceForm.addEventListener("submit", async (event) => {
                 : "",
             mensaje
         });
+nombreInvitadoConfirmado = nombre;
 
+const giftsSection = document.querySelector("#gifts");
+
+setTimeout(() => {
+    giftsSection?.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
+}, 900);
         mostrarToast({
             titulo: "¡Confirmación recibida!",
             mensaje: vaAsistir
@@ -161,6 +170,7 @@ attendanceForm.addEventListener("submit", async (event) => {
     }
 });
 let attendanceResponse = "";
+let nombreInvitadoConfirmado = "";
 function mostrarToast({
     titulo,
     mensaje,
@@ -407,8 +417,10 @@ function createGiftCard(gift) {
         const guestNameInput = document.querySelector("#guest-name");
         const giftQuantityInput = document.querySelector("#gift-quantity");
 
-        modalGiftName.textContent = gift.nombre;
-        guestNameInput.value = "";
+      modalGiftName.textContent = gift.nombre;
+
+guestNameInput.value =
+    nombreInvitadoConfirmado || "";
         giftQuantityInput.value = "1";
 giftQuantityInput.readOnly = gift.tipo === "UNICO";
 if (gift.tipo === "UNICO") {
