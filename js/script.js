@@ -767,3 +767,46 @@ if (error.message === "REGALO_YA_RESERVADO") {
 }
 
 loadGifts();
+window.scrollTo({
+    top: 0,
+    left: 0,
+    behavior: "instant"
+});
+const introScreen =
+    document.querySelector("#intro-screen");
+
+const introSkip =
+    document.querySelector("#intro-skip");
+
+
+function cerrarIntro() {
+    if (!introScreen) {
+        return;
+    }
+window.scrollTo({
+    top: 0,
+    left: 0,
+    behavior: "instant"
+});
+    introScreen.classList.add(
+        "intro-fade-out"
+    );
+
+    setTimeout(() => {
+        introScreen.remove();
+    }, 900);
+}
+
+
+if (introSkip) {
+    introSkip.addEventListener(
+        "click",
+        cerrarIntro
+    );
+}
+
+
+/* Cierre automático */
+setTimeout(() => {
+    cerrarIntro();
+}, 4800);

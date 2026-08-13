@@ -9,15 +9,15 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Showerfest de Thiago 🚀</title>
+    <title>Houston tenemos un NIÑO! 🚀</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Orbitron:wght@500;600;700&display=swap"
-        rel="stylesheet"
-    >
+<link
+    href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;500;600;700;800&family=Orbitron:wght@500;600;700&display=swap"
+    rel="stylesheet"
+>
 
     <link rel="stylesheet" href="css/style.css">
 </head>
@@ -30,10 +30,65 @@
 
     <div class="stars" id="stars"></div>
 </div>
+<div class="intro-screen" id="intro-screen">
+
+    <div class="intro-stars"></div>
+
+    <div class="intro-center">
+
+        <div class="intro-star">
+            ✦
+        </div>
+
+        <p class="intro-pretitle">
+            Una nueva estrella se aproxima
+        </p>
+
+        <h1 class="intro-title">
+            Thiago
+        </h1>
+
+        <p class="intro-subtitle">
+            Preparando coordenadas para la misión...
+        </p>
+
+    </div>
+
+    <button
+        type="button"
+        class="intro-skip"
+        id="intro-skip"
+    >
+        Saltar intro
+    </button>
+
+</div>
     <main>
 
 <section class="hero">
+<div class="hero-space-decor" aria-hidden="true">
 
+    <div class="hero-planet hero-planet-one"></div>
+
+    <div class="hero-planet hero-planet-two"></div>
+
+    <div class="hero-rocket">
+        🚀
+    </div>
+
+    <div class="hero-star hero-star-one">
+        ✦
+    </div>
+
+    <div class="hero-star hero-star-two">
+        ✦
+    </div>
+
+    <div class="hero-star hero-star-three">
+        ✦
+    </div>
+
+</div>
     <div class="hero-content">
 
         <span class="eyebrow">
@@ -41,8 +96,8 @@
         </span>
 
         <h1 id="page-title">
-            Showerfest de
-            <strong id="baby-name">Thiago</strong>
+            Houston tenemos un
+            <strong id="baby-name">NIÑO!</strong>
         </h1>
 
         <p id="main-message">
@@ -54,217 +109,487 @@
         </button>
 
     </div>
+<!-- DECORACIÓN ACUARELA DE LA PORTADA -->
 
+<img
+    src="images/nino-cohete-acuarela.png"
+    class="hero-art hero-art-nino"
+    alt=""
+    aria-hidden="true"
+>
+
+<img
+    src="images/meteorito-acuarela.png"
+    class="hero-art hero-art-meteorito"
+    alt=""
+    aria-hidden="true"
+>
+
+<img
+    src="images/marciano-acuarela.png"
+    class="hero-art hero-art-marciano"
+    alt=""
+    aria-hidden="true"
+>
 </section>
-
-
-<section class="countdown-section" id="countdown">
-
-    <p class="countdown-label">
-        ✨ Cuenta regresiva ✨
-    </p>
-
-    <p class="countdown-date" id="countdown-date">
-        Cargando fecha del evento...
-    </p>
-
-    <div class="countdown-grid">
-
-        <div class="countdown-card">
-            <strong id="countdown-days">00</strong>
-            <span>Días</span>
-        </div>
-
-        <div class="countdown-card">
-            <strong id="countdown-hours">00</strong>
-            <span>Horas</span>
-        </div>
-
-        <div class="countdown-card">
-            <strong id="countdown-minutes">00</strong>
-            <span>Minutos</span>
-        </div>
-
-        <div class="countdown-card">
-            <strong id="countdown-seconds">00</strong>
-            <span>Segundos</span>
-        </div>
-
-    </div>
-
-    <div class="countdown-actions">
-
-        <button
-            id="countdown-continue"
-            class="countdown-continue"
-            type="button"
-        >
-            🚀 Continuar misión
-        </button>
-
-    </div>
-
-</section>
-
 
 <section class="mission-section" id="mission">
 
-    <div class="section-content">
+    <div class="story-layout">
 
-        <span class="section-label">
-            Primera coordenada
-        </span>
+        <!-- Lado visual -->
+        <div class="story-visual">
 
-        <h2>
-            Nuestra aventura está comenzando
-        </h2>
+            <div class="story-orbit" aria-hidden="true"></div>
 
-        <p>
-            Muy pronto compartiremos contigo la historia,
-            los detalles del evento y la lista de regalos
-            para nuestro pequeño astronauta.
-        </p>
+            <div class="story-photo-placeholder">
+                <span>💫</span>
 
-    </div>
-
-</section>
-<section class="attendance-section" id="attendance">
-
-    <div class="section-content">
-
-        <span class="section-label">
-            Confirmación de misión
-        </span>
-
-        <h2>
-            ¿Nos acompañas en esta aventura?
-        </h2>
-
-        <p>
-            Confirma tu asistencia para ayudarnos a preparar
-            todo para este día tan especial.
-        </p>
-
-        <form class="attendance-form" id="attendance-form">
-
-            <div class="form-group">
-                <label for="attendance-name">
-                    Tu nombre
-                </label>
-
-                <input
-                    type="text"
-                    id="attendance-name"
-                    placeholder="Escribe tu nombre"
-                    required
-                >
+                <p>
+                    Aquí comenzará nuestra historia
+                </p>
             </div>
 
-            <div class="form-group">
-                <label>
-                    ¿Asistirás?
-                </label>
-
-                <div class="option-buttons">
-                    <button
-                        type="button"
-                        class="attendance-option"
-                        data-attendance="si"
-                    >
-                        🚀 Sí, estaré allí
-                    </button>
-
-                    <button
-                        type="button"
-                        class="attendance-option"
-                        data-attendance="no"
-                    >
-                        🌙 No podré asistir
-                    </button>
-                </div>
+            <div class="story-planet" aria-hidden="true">
+                🪐
             </div>
 
-            <div
-                class="attendance-details hidden"
-                id="attendance-details"
-            >
+        </div>
 
-                <div class="form-group">
-                    <label for="attendance-adults">
-                        Adultos
-                    </label>
 
-                    <input
-                        type="number"
-                        id="attendance-adults"
-                        value="1"
-                        min="1"
-                    >
-                </div>
+        <!-- Lado de texto -->
+        <div class="section-content story-content">
 
-                <div class="form-group">
-                    <label for="attendance-children">
-                        Niños
-                    </label>
+            <span class="section-label">
+                Primera coordenada
+            </span>
 
-                    <input
-                        type="number"
-                        id="attendance-children"
-                        value="0"
-                        min="0"
-                    >
-                </div>
-
-                <div class="form-group">
-                    <label for="attendance-food">
-                        Restricción alimentaria
-                        <span>(opcional)</span>
-                    </label>
-
-                    <input
-                        type="text"
-                        id="attendance-food"
-                        placeholder="Ej. vegetariano, alergias..."
-                    >
-                </div>
-
-            </div>
-
-            <div class="form-group">
-                <label for="attendance-message">
-                    Mensaje para Thiago
-                    <span>(opcional)</span>
-                </label>
-
-                <textarea
-                    id="attendance-message"
-                    rows="4"
-                    placeholder="Déjanos unas palabras especiales..."
-                ></textarea>
-            </div>
-
-            <button
-                type="submit"
-                class="attendance-submit"
-            >
-                Confirmar asistencia
-            </button>
-
-        </form>
-<div class="attendance-success hidden" id="attendance-success">
-            <div class="attendance-success-icon">✨</div>
-
-            <h3>Misión confirmada</h3>
+            <h2>
+                Nuestra historia
+            </h2>
 
             <p>
-                Gracias por confirmar tu asistencia.
-                Nos alegra mucho compartir esta aventura contigo.
+                Esta aventura comenzó mucho antes de saber
+                que venías en camino. Desde que supimos de ti,
+                nuestras vidas se llenaron de más amor,
+                ilusión y sueños.
             </p>
+
+            <p>
+                Ahora contamos los días para conocerte
+                y comenzar juntos esta nueva misión:
+                ser tu familia. 💙
+            </p>
+
         </div>
 
     </div>
 
 </section>
+<section class="rsvp-stage">
+
+    <div class="rsvp-station">
+
+        <!-- CABECERA DE LA ESTACIÓN -->
+        <div class="station-badge">
+            <span class="station-badge-icon">🪐</span>
+            <span>ESTACIÓN 2/3</span>
+        </div>
+
+
+        <!-- =====================================
+             CONTADOR + ASISTENCIA
+             DOS COLUMNAS EN ESCRITORIO
+        ====================================== -->
+
+        <div class="rsvp-station-grid">
+
+
+            <!-- =========================
+                 COLUMNA IZQUIERDA
+                 CUENTA REGRESIVA
+            ========================== -->
+
+            <section
+                class="countdown-section"
+                id="countdown"
+            >
+
+                <span class="station-eyebrow">
+                    Fecha del evento
+                </span>
+
+                <p class="countdown-label">
+                    ✨ Cuenta regresiva ✨
+                </p>
+
+                <p
+                    class="countdown-date"
+                    id="countdown-date"
+                >
+                    Cargando fecha del evento...
+                </p>
+
+
+                <div class="countdown-grid">
+
+                    <div class="countdown-card">
+
+                        <strong id="countdown-days">
+                            00
+                        </strong>
+
+                        <span>
+                            Días
+                        </span>
+
+                    </div>
+
+
+                    <div class="countdown-card">
+
+                        <strong id="countdown-hours">
+                            00
+                        </strong>
+
+                        <span>
+                            Horas
+                        </span>
+
+                    </div>
+
+
+                    <div class="countdown-card">
+
+                        <strong id="countdown-minutes">
+                            00
+                        </strong>
+
+                        <span>
+                            Minutos
+                        </span>
+
+                    </div>
+
+
+                    <div class="countdown-card">
+
+                        <strong id="countdown-seconds">
+                            00
+                        </strong>
+
+                        <span>
+                            Segundos
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =========================
+                 COLUMNA DERECHA
+                 CONFIRMACIÓN
+            ========================== -->
+
+            <section
+                class="attendance-section"
+                id="attendance"
+            >
+
+                <div class="section-content">
+
+                    <span class="section-label">
+                        Confirmación de misión
+                    </span>
+
+
+                    <h2>
+                        ¿Nos acompañas
+                        <span>
+                            en esta aventura?
+                        </span>
+                    </h2>
+
+
+                    <p class="attendance-intro">
+                        Confirma tu asistencia para ayudarnos
+                        a preparar todo para este día tan especial.
+                    </p>
+
+
+                    <form
+                        class="attendance-form"
+                        id="attendance-form"
+                    >
+
+
+                        <!-- NOMBRE -->
+
+                        <div class="form-group">
+
+                            <label for="attendance-name">
+                                Tu nombre
+                            </label>
+
+                            <input
+                                type="text"
+                                id="attendance-name"
+                                placeholder="Escribe tu nombre"
+                                required
+                            >
+
+                        </div>
+
+
+                        <!-- ASISTENCIA -->
+
+                        <div class="form-group">
+
+                            <label>
+                                ¿Asistirás?
+                            </label>
+
+
+                            <div class="option-buttons">
+
+                                <button
+                                    type="button"
+                                    class="attendance-option"
+                                    data-attendance="si"
+                                >
+                                    🚀 Sí, estaré allí
+                                </button>
+
+
+                                <button
+                                    type="button"
+                                    class="attendance-option"
+                                    data-attendance="no"
+                                >
+                                    🌙 No podré asistir
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- DATOS ADICIONALES -->
+
+                        <div
+                            class="attendance-details hidden"
+                            id="attendance-details"
+                        >
+
+                            <div class="attendance-numbers">
+
+
+                                <!-- ADULTOS -->
+
+                                <div class="form-group">
+
+                                    <label for="attendance-adults">
+                                        Adultos
+                                    </label>
+
+                                    <input
+                                        type="number"
+                                        id="attendance-adults"
+                                        value="1"
+                                        min="1"
+                                    >
+
+                                </div>
+
+
+                                <!-- NIÑOS -->
+
+                                <div class="form-group">
+
+                                    <label for="attendance-children">
+                                        Niños
+                                    </label>
+
+                                    <input
+                                        type="number"
+                                        id="attendance-children"
+                                        value="0"
+                                        min="0"
+                                    >
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- RESTRICCIÓN ALIMENTARIA -->
+
+                            <div class="form-group">
+
+                                <label for="attendance-food">
+
+                                    Restricción alimentaria
+
+                                    <span>
+                                        (opcional)
+                                    </span>
+
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="attendance-food"
+                                    placeholder="Ej. vegetariano, alergias..."
+                                >
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- MENSAJE -->
+
+                        <div class="form-group">
+
+                            <label for="attendance-message">
+
+                                Mensaje para Thiago
+
+                                <span>
+                                    (opcional)
+                                </span>
+
+                            </label>
+
+                            <textarea
+                                id="attendance-message"
+                                rows="4"
+                                placeholder="Déjanos unas palabras especiales..."
+                            ></textarea>
+
+                        </div>
+
+
+                        <!-- CONFIRMAR -->
+
+                        <button
+                            type="submit"
+                            class="attendance-submit"
+                        >
+                            💙 Confirmar asistencia
+                        </button>
+
+                    </form>
+
+
+                    <!-- =========================
+                         MENSAJE DE ÉXITO
+                    ========================== -->
+
+                    <div
+                        class="attendance-success hidden"
+                        id="attendance-success"
+                    >
+
+                        <div class="attendance-success-icon">
+                            ✨
+                        </div>
+
+                        <h3>
+                            Misión confirmada
+                        </h3>
+
+                        <p>
+                            Gracias por ser parte
+                            de esta historia.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+        </div>
+        <!-- FIN rsvp-station-grid -->
+<div class="station-art" aria-hidden="true">
+
+    <img
+        src="images/astronauta-rsvp.png"
+        class="station-art-astronaut"
+        alt=""
+    >
+
+    <img
+        src="images/alien-rsvp.png"
+        class="station-art-alien"
+        alt=""
+    >
+
+    <img
+        src="images/planet-rsvp.png"
+        class="station-art-planet"
+        alt=""
+    >
+
+    <img
+        src="images/rocket-rsvp.png"
+        class="station-art-rocket"
+        alt=""
+    >
+
+</div>
+
+        <!-- DECORACIONES
+             Más adelante pondremos aquí
+             astronauta, planetas y alien -->
+
+        <div
+            class="station-decoration station-decoration-left"
+            aria-hidden="true"
+        ></div>
+
+        <div
+            class="station-decoration station-decoration-right"
+            aria-hidden="true"
+        ></div>
+<!-- =========================================
+     DECORACIÓN ESPACIAL ACUARELA
+========================================= -->
+<div class="rsvp-space-art" aria-hidden="true">
+
+    <!-- Parte superior -->
+    <img
+        src="images/astronauta-acuarela.png"
+        class="space-art art-astronauta"
+        alt=""
+    >
+
+    <img
+        src="images/cohete-acuarela.png"
+        class="space-art art-cohete"
+        alt=""
+    >
+
+       <!-- Parte inferior -->
+    <img
+        src="images/luna-acuarela.png"
+        class="space-art art-luna"
+        alt=""
+    >
+
+
+</div>
+
+    </div>
+    <!-- FIN rsvp-station -->
+
+</section>
+<!-- FIN rsvp-stage -->
 <section class="gifts-section" id="gifts">
 
     <div class="section-heading">
@@ -289,7 +614,7 @@
             Cargando regalos de la misión...
         </p>
     </div>
-
+</section>
 </section>
     </main>
 
