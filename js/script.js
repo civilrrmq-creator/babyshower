@@ -4,6 +4,8 @@ import {
 } from "./regalosFirestore.js";
 const missionButton = document.querySelector("#mission-button");
 const missionSection = document.querySelector("#mission");
+const storyContinue =
+    document.querySelector("#story-continue");
 import { guardarInvitado } from "./invitadosFirestore.js";
 const pageTitle = document.querySelector("#page-title");
 const babyName = document.querySelector("#baby-name");
@@ -446,13 +448,13 @@ async function loadEventData() {
 
         document.title = `${eventData.nombrePagina} 🚀`;
 
-        if (pageTitle) {
-            pageTitle.childNodes[0].textContent = "Showerfest de ";
-        }
+       if (pageTitle) {
+    pageTitle.childNodes[0].textContent = "Houston tenemos un ";
+}
 
-        if (babyName) {
-            babyName.textContent = eventData.nombreBebe;
-        }
+if (babyName) {
+    babyName.textContent = "NIÑO!";
+}
 
         if (mainMessage) {
             mainMessage.textContent = eventData.mensajePrincipal;
@@ -468,16 +470,32 @@ async function loadEventData() {
 
 const countdownSection =
     document.querySelector("#countdown");
-
+const rsvpStage =
+    document.querySelector(".rsvp-stage");
 const countdownContinue =
     document.querySelector("#countdown-continue");
+/* =========================================
+   NUESTRA HISTORIA → CONTADOR + REGISTRO
+========================================= */
 
+if (storyContinue && rsvpStage) {
 
-if (missionButton && countdownSection) {
-    missionButton.addEventListener("click", () => {
-        countdownSection.scrollIntoView({
+    storyContinue.addEventListener("click", () => {
+
+        rsvpStage.scrollIntoView({
             behavior: "smooth",
             block: "center"
+        });
+
+    });
+
+}
+
+if (missionButton && missionSection) {
+    missionButton.addEventListener("click", () => {
+        missionSection.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
         });
     });
 }
