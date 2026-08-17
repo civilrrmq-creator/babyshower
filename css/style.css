@@ -9442,3 +9442,129 @@ button:hover,.attendance-submit:hover,.gift-button:hover,#confirm-reservation:ho
         bottom: 14px !important;
     }
 }
+/* =========================================================
+   UBICACIÓN — DENTRO DEL CONTADOR
+========================================================= */
+
+.countdown-location {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 10px;
+
+    margin:
+        10px 0
+        22px;
+
+    padding:
+        10px 14px;
+
+    border-radius:
+        16px;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(233, 248, 251, .85),
+            rgba(255, 244, 232, .75)
+        );
+
+    border:
+        1px solid
+        rgba(82, 171, 196, .16);
+}
+
+
+/* ICONO */
+
+.countdown-location-icon {
+    flex-shrink: 0;
+
+    font-size: 23px;
+}
+
+
+/* INFORMACIÓN */
+
+.countdown-location-info {
+    display: flex;
+    flex-direction: column;
+
+    gap: 1px;
+
+    text-align: left;
+}
+
+
+.countdown-location-label {
+    color: #50a5bd;
+
+    font-family: "Orbitron", sans-serif;
+
+    font-size: 8px;
+    font-weight: 600;
+
+    letter-spacing: .10em;
+
+    text-transform: uppercase;
+}
+
+
+.countdown-location-info strong {
+    color: #174f65;
+
+    font-family: "Fredoka", sans-serif;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    line-height: 1.25;
+}
+
+
+.countdown-location-address {
+    color: #718d97;
+
+    font-family: "Nunito", sans-serif;
+
+    font-size: 12px;
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   CELULAR
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .countdown-location {
+        gap: 8px;
+
+        margin:
+            8px 0
+            18px;
+
+        padding:
+            9px 11px;
+    }
+
+    .countdown-location-icon {
+        font-size: 20px;
+    }
+
+    .countdown-location-label {
+        font-size: 7px;
+    }
+
+    .countdown-location-info strong {
+        font-size: 14px;
+    }
+
+    .countdown-location-address {
+        font-size: 11px;
+    }
+}
