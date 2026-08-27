@@ -987,6 +987,35 @@
         width: 100%;
     }
 }
+/* =========================================
+   CONTRASTE - LISTA DE REGALOS ADMIN
+========================================= */
+
+.admin-gift-card {
+    color: #123b52 !important;
+}
+
+.admin-gift-card h3 {
+    color: #0b3852 !important;
+}
+
+.admin-gift-meta,
+.admin-gift-meta span {
+    color: #31576a !important;
+}
+
+.admin-gift-description {
+    color: #527080 !important;
+}
+
+.admin-gift-reserved {
+    color: #16805d !important;
+    font-weight: 700;
+}
+
+.admin-gift-card.gift-disabled {
+    opacity: 0.72;
+}
     </style>
 
 </head>
@@ -1216,7 +1245,22 @@
                         </select>
 
                     </div>
+<div
+    class="form-group"
+    id="admin-gift-max-group"
+>
+    <label for="admin-gift-max">
+        Cantidad máxima
+        <span>(solo para regalos abiertos)</span>
+    </label>
 
+    <input
+        type="number"
+        id="admin-gift-max"
+        min="1"
+        placeholder="Ej. 10"
+    >
+</div>
                 </div>
 
 

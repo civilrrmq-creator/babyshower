@@ -79,7 +79,8 @@ const giftUnitInput =
 
 const giftTypeInput =
     document.querySelector("#admin-gift-type");
-
+const giftMaxInput =
+    document.querySelector("#admin-gift-max");
 const giftDescriptionInput =
     document.querySelector("#admin-gift-description");
 
@@ -93,13 +94,13 @@ const giftImageInput =
 
 let invitados = [];
 let regalos = [];
-
+let reservas = [];
 let filtroActivo = "todos";
 let textoBusqueda = "";
 
 let unsubscribeInvitados = null;
 let unsubscribeRegalos = null;
-
+let unsubscribeReservas = null;
 let regaloEditandoId = null;
 /* =========================================================
    EDICIÓN DE INVITADOS
@@ -539,7 +540,33 @@ function aplicarFiltro() {
 /* =========================================================
    INVITADOS - RENDER
 ========================================================= */
+function obtenerReservasDeInvitado(invitado) {
 
+    return reservas.filter(
+        (reserva) => {
+
+            const nombreReserva =
+                reserva.nombreInvitado ||
+                reserva.nombre ||
+                "";
+
+            const mismoNombre =
+                nombreReserva ===
+                invitado.nombre;
+
+            const mismoEvento =
+                !reserva.eventoId ||
+                reserva.eventoId ===
+                    invitado.eventoId;
+
+            return (
+                mismoNombre &&
+                mismoEvento &&
+                reserva.estado !== "cancelada"
+            );
+        }
+    );
+}
 function renderizarInvitados(lista) {
     guestsList.innerHTML = "";
 
@@ -580,7 +607,10 @@ function renderizarInvitados(lista) {
 
         const asiste =
             invitado.asiste === true;
-
+const reservasInvitado =
+    obtenerReservasDeInvitado(
+        invitado
+    );
 
         /* =========================
            ESTRUCTURA SEGURA
@@ -823,7 +853,62 @@ function renderizarInvitados(lista) {
             );
         }
 
+/* =========================
+   REGALOS RESERVADOS
+========================= */
 
+if (reservasInvitado.length) {
+
+    const giftsBox =
+        document.createElement("div");
+
+    giftsBox.classList.add(
+        "guest-row-extra"
+    );
+
+
+    const label =
+        document.createElement("strong");
+
+    label.textContent =
+        "🎁 Regalos reservados: ";
+
+
+    giftsBox.appendChild(label);
+
+
+    reservasInvitado.forEach(
+        (reserva, index) => {
+
+            const gift =
+                document.createElement("span");
+
+            const cantidad =
+                Number(reserva.cantidad || 1);
+
+            const unidad =
+                reserva.unidad || "Unidad";
+
+            gift.textContent =
+                `${reserva.regaloNombre || "Regalo"} — ${cantidad} ${unidad}`;
+
+            giftsBox.appendChild(gift);
+
+
+            if (
+                index <
+                reservasInvitado.length - 1
+            ) {
+                giftsBox.appendChild(
+                    document.createElement("br")
+                );
+            }
+        }
+    );
+
+
+    row.appendChild(giftsBox);
+}
         /* =========================
            BOTONES
         ========================= */
@@ -1378,7 +1463,23 @@ giftAdminForm.addEventListener(
             giftImageInput
                 .value
                 .trim();
+const cantidadMeta =
+    tipo === "ABIERTO"
+        ? Number(giftMaxInput.value)
+        : 0;
+        if (
+    tipo === "ABIERTO" &&
+    (
+        !Number.isInteger(cantidadMeta) ||
+        cantidadMeta <= 0
+    )
+) {
+    mostrarEstado(
+        "Indica una cantidad máxima válida para el regalo abierto."
+    );
 
+    return;
+}
         if (
             !nombre ||
             !categoria ||
@@ -1425,7 +1526,7 @@ giftAdminForm.addEventListener(
                     tipo,
                     descripcion,
                     imagen,
-
+cantidadMeta,
                     fechaActualizacion:
                         serverTimestamp()
                 };
@@ -1457,7 +1558,7 @@ giftAdminForm.addEventListener(
                     unidad,
                     tipo,
                     imagen,
-
+cantidadMeta,
                     activo: true,
 
                     estado:
@@ -1561,7 +1662,10 @@ function editarRegalo(regaloId) {
 
     giftImageInput.value =
         regalo.imagen || "";
-
+giftMaxInput.value =
+    regalo.tipo === "ABIERTO"
+        ? regalo.cantidadMeta || ""
+        : "";
     giftAdminSubmit.textContent =
         "💾 Guardar cambios";
 
@@ -1686,7 +1790,56 @@ async function eliminarRegalo(
 /* =========================================================
    REGALOS - RENDER
 ========================================================= */
+function obtenerReservasDeRegalo(regalo) {
 
+    const reservasDelRegalo =
+        reservas.filter(
+            (reserva) =>
+                (
+                    String(reserva.regaloId) ===
+                    String(regalo.id)
+                    ||
+                    reserva.regaloNombre ===
+                    regalo.nombre
+                )
+                &&
+                reserva.estado !== "cancelada"
+        );
+
+
+    const porPersona = {};
+
+    reservasDelRegalo.forEach(
+        (reserva) => {
+
+           const nombre =
+    reserva.nombreInvitado ||
+    reserva.nombre ||
+    "Invitado";
+            const cantidad =
+                Number(
+                    reserva.cantidad || 0
+                );
+
+            if (!porPersona[nombre]) {
+                porPersona[nombre] = 0;
+            }
+
+            porPersona[nombre] +=
+                cantidad;
+        }
+    );
+
+
+    return Object.entries(
+        porPersona
+    ).map(
+        ([nombre, cantidad]) => ({
+            nombre,
+            cantidad
+        })
+    );
+}
 function renderizarRegalos(lista) {
     adminGiftsList.innerHTML = "";
 
@@ -1725,7 +1878,10 @@ function renderizarRegalos(lista) {
         const reservado =
             regalo.estado ===
             "reservado";
-
+const reservasRegalo =
+    esAbierto
+        ? obtenerReservasDeRegalo(regalo)
+        : [];
         card.innerHTML = `
             <div class="admin-gift-header">
 
@@ -1810,16 +1966,22 @@ function renderizarRegalos(lista) {
             }
 
             ${
-                reservado &&
-                regalo.reservadoPor
-                    ? `
-                        <p class="admin-gift-reserved">
-                            🔒 Reservado por
-                            ${regalo.reservadoPor}
-                        </p>
-                    `
-                    : ""
-            }
+    esAbierto &&
+    reservasRegalo.length
+        ? `
+            <div class="admin-open-reservations">
+
+                <strong>
+                    👥 Reservado por
+                </strong>
+
+                <div class="admin-open-reservations-list">
+                </div>
+
+            </div>
+        `
+        : ""
+}
 
             <div class="admin-gift-actions">
 
@@ -1854,7 +2016,33 @@ function renderizarRegalos(lista) {
 
             </div>
         `;
+const reservasListElement =
+    card.querySelector(
+        ".admin-open-reservations-list"
+    );
 
+if (reservasListElement) {
+
+    reservasRegalo.forEach(
+        (reserva) => {
+
+            const item =
+                document.createElement("div");
+
+            item.className =
+                "admin-open-reservation-item";
+
+            item.textContent =
+                `${reserva.nombre} — ${reserva.cantidad} ${
+                    regalo.unidad || "unidades"
+                }`;
+
+            reservasListElement.appendChild(
+                item
+            );
+        }
+    );
+}
 
         const editButton =
             card.querySelector(
@@ -1913,7 +2101,54 @@ function renderizarRegalos(lista) {
         fragment
     );
 }
+/* =========================================================
+   RESERVAS - FIRESTORE
+========================================================= */
 
+function escucharReservasAdmin() {
+
+    const reservasRef =
+        collection(
+            db,
+            "reservas"
+        );
+
+    unsubscribeReservas =
+        onSnapshot(
+            reservasRef,
+
+            (snapshot) => {
+
+                reservas =
+                    snapshot.docs.map(
+                        (documento) => ({
+                            id: documento.id,
+                            ...documento.data()
+                        })
+                    );
+
+                console.log(
+                    "Reservas cargadas:",
+                    reservas.length
+                );
+
+                // Más adelante usaremos estas reservas
+                // tanto en regalos como en invitados.
+                renderizarRegalos(
+                    regalos
+                );
+
+                aplicarFiltro();
+            },
+
+            (error) => {
+                console.error(
+                    "Error al cargar reservas:",
+                    error
+                );
+            }
+        );
+}
 
 /* =========================================================
    REGALOS - FIRESTORE
@@ -2015,6 +2250,10 @@ onAuthStateChanged(
             unsubscribeRegalos = null;
         }
 
+        if (unsubscribeReservas) {
+    unsubscribeReservas();
+    unsubscribeReservas = null;
+}
         if (user) {
 
             if (
@@ -2059,7 +2298,7 @@ onAuthStateChanged(
 
             escucharInvitados();
             escucharRegalosAdmin();
-
+escucharReservasAdmin();
         } else {
 
             authStatus.textContent =

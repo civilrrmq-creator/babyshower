@@ -9568,3 +9568,778 @@ button:hover,.attendance-submit:hover,.gift-button:hover,#confirm-reservation:ho
         font-size: 11px;
     }
 }
+/* =========================================================
+   REGALOS POR CATEGORÍA — ACORDEÓN
+========================================================= */
+
+#gifts-container {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 16px !important;
+}
+
+
+/* GRUPO */
+
+.gift-group {
+    width: 100%;
+
+    border-radius: 24px;
+
+    overflow: hidden;
+
+    background:
+        rgba(255, 255, 255, 0.55);
+
+    border:
+        1px solid
+        rgba(86, 175, 198, 0.16);
+
+    box-shadow:
+        0 10px 26px
+        rgba(52, 117, 137, 0.07);
+}
+
+
+/* =========================================================
+   CABECERA DE CATEGORÍA
+========================================================= */
+
+.gift-group-header {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding:
+        18px
+        22px;
+
+    border: 0;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,.96),
+            rgba(238,249,251,.96)
+        );
+
+    cursor: pointer;
+
+    color: #174f65;
+
+    font-family:
+        "Fredoka",
+        sans-serif;
+
+    text-align: left;
+}
+
+
+/* IZQUIERDA */
+
+.gift-group-heading {
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+}
+
+
+.gift-group-icon {
+    width: 48px;
+    height: 48px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border-radius: 15px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #eaf8fb,
+            #fff0df
+        );
+
+    font-size: 23px;
+}
+
+
+.gift-group-text {
+    display: flex;
+    flex-direction: column;
+
+    gap: 2px;
+}
+
+
+.gift-group-text strong {
+    color: #174f65;
+
+    font-size: 20px;
+    font-weight: 600;
+}
+
+
+.gift-group-text span {
+    color: #77929c;
+
+    font-family:
+        "Nunito",
+        sans-serif;
+
+    font-size: 13px;
+}
+
+
+/* FLECHA */
+
+.gift-group-arrow {
+    color: #51a9c0;
+
+    font-size: 16px;
+
+    transition:
+        transform .25s ease;
+}
+
+
+/* =========================================================
+   CONTENIDO
+========================================================= */
+
+.gift-group-content {
+    display: none;
+
+    padding:
+        12px;
+
+    gap:
+        12px;
+
+    background:
+        rgba(229, 245, 248, 0.48);
+}
+
+
+/* CUANDO ESTÁ ABIERTO */
+
+.gift-group.is-open
+.gift-group-content {
+    display: flex;
+
+    flex-direction: column;
+}
+
+
+.gift-group.is-open
+.gift-group-arrow {
+    transform:
+        rotate(180deg);
+}
+
+
+/* Quitamos márgenes que traían las tarjetas */
+
+.gift-group-content
+.gift-card {
+    margin: 0 !important;
+}
+
+
+/* =========================================================
+   HOVER
+========================================================= */
+
+.gift-group-header:hover {
+    background:
+        linear-gradient(
+            90deg,
+            #ffffff,
+            #e9f7f9
+        );
+}
+
+
+/* =========================================================
+   CELULAR
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .gift-group {
+        border-radius: 19px;
+    }
+
+
+    .gift-group-header {
+        padding:
+            14px
+            15px;
+
+        gap:
+            10px;
+    }
+
+
+    .gift-group-icon {
+        width: 42px;
+        height: 42px;
+
+        border-radius:
+            13px;
+
+        font-size:
+            20px;
+    }
+
+
+    .gift-group-text strong {
+        font-size:
+            18px;
+    }
+
+
+    .gift-group-text span {
+        font-size:
+            12px;
+    }
+
+
+    .gift-group-content {
+        padding:
+            9px;
+
+        gap:
+            9px;
+    }
+}
+/* =========================================================
+   🎁 ACORDEÓN DE CATEGORÍAS — VERSIÓN MÁS LIMPIA
+   ========================================================= */
+
+.gift-category {
+    margin-bottom: 16px;
+    border-radius: 24px;
+    overflow: hidden;
+
+    background: rgba(255, 255, 255, 0.92);
+
+    border: 1px solid rgba(79, 181, 211, 0.22);
+
+    box-shadow:
+        0 12px 30px rgba(37, 111, 137, 0.10);
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.gift-category:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 16px 35px rgba(37, 111, 137, 0.15);
+}
+
+
+/* CABECERA DE CADA CATEGORÍA */
+
+.gift-category-header {
+    width: 100%;
+    min-height: 88px;
+
+    display: flex;
+    align-items: center;
+    gap: 18px;
+
+    padding: 16px 24px;
+
+    border: none;
+    cursor: pointer;
+
+    text-align: left;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(85, 187, 214, 0.16),
+            rgba(255, 255, 255, 0.96) 45%,
+            rgba(255, 177, 112, 0.14)
+        );
+
+    transition: background 0.25s ease;
+}
+
+.gift-category-header:hover {
+    background:
+        linear-gradient(
+            90deg,
+            rgba(85, 187, 214, 0.25),
+            rgba(255, 255, 255, 1) 45%,
+            rgba(255, 177, 112, 0.20)
+        );
+}
+
+
+/* ICONO */
+
+.gift-category-icon {
+    width: 54px;
+    height: 54px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 25px;
+
+    background: #fffaf3;
+
+    border: 1px solid rgba(33, 91, 113, 0.10);
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 5px 15px rgba(40, 99, 120, 0.08);
+}
+
+
+/* TEXTO */
+
+.gift-category-info {
+    flex: 1;
+}
+
+.gift-category-title {
+    margin: 0;
+
+    color: #15536b;
+
+    font-size: 21px;
+    font-weight: 800;
+
+    line-height: 1.15;
+}
+
+.gift-category-count {
+    display: block;
+
+    margin-top: 5px;
+
+    color: #62899a;
+
+    font-size: 14px;
+    font-weight: 600;
+}
+
+
+/* FLECHA */
+
+.gift-category-arrow {
+    margin-left: auto;
+
+    color: #3ba8c5;
+
+    font-size: 21px;
+    font-weight: 800;
+
+    transition: transform 0.3s ease;
+}
+
+
+/* CUANDO ESTÁ ABIERTA */
+
+.gift-category.open .gift-category-arrow {
+    transform: rotate(180deg);
+}
+
+.gift-category.open .gift-category-header {
+    background:
+        linear-gradient(
+            90deg,
+            rgba(85, 187, 214, 0.22),
+            rgba(255, 255, 255, 1) 45%,
+            rgba(255, 177, 112, 0.18)
+        );
+}
+
+
+/* CONTENIDO DESPLEGABLE */
+
+.gift-category-content {
+    padding: 0 18px 18px;
+
+    background: rgba(245, 252, 254, 0.72);
+}
+
+
+/* Separación entre regalos */
+
+.gift-category-content .gift-card {
+    margin-top: 12px;
+}
+
+
+/* =========================================================
+   📱 CELULAR
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+    .gift-category {
+        border-radius: 19px;
+        margin-bottom: 12px;
+    }
+
+    .gift-category-header {
+        min-height: 76px;
+
+        padding: 12px 15px;
+
+        gap: 12px;
+    }
+
+    .gift-category-icon {
+        width: 48px;
+        height: 48px;
+
+        border-radius: 14px;
+
+        font-size: 22px;
+    }
+
+    .gift-category-title {
+        font-size: 18px;
+    }
+
+    .gift-category-count {
+        font-size: 12px;
+
+        margin-top: 3px;
+    }
+
+    .gift-category-arrow {
+        font-size: 18px;
+    }
+
+    .gift-category-content {
+        padding: 0 10px 12px;
+    }
+}
+/* =========================================================
+   CATEGORÍAS DE REGALOS — DISEÑO FINAL
+========================================================= */
+
+#gifts .gift-group {
+    width: 100% !important;
+
+    margin: 0 0 14px !important;
+
+    border: 1px solid rgba(74, 164, 188, 0.18) !important;
+    border-radius: 22px !important;
+
+    background: rgba(255, 255, 255, 0.94) !important;
+
+    box-shadow:
+        0 10px 26px rgba(46, 111, 132, 0.08) !important;
+
+    overflow: hidden !important;
+}
+
+
+/* =========================================================
+   CABECERA
+========================================================= */
+
+#gifts .gift-group-header {
+    width: 100% !important;
+    min-height: 82px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+
+    gap: 18px !important;
+
+    padding: 15px 20px !important;
+
+    border: none !important;
+
+    /* QUITAMOS EL DEGRADADO FUERTE */
+    background:
+        linear-gradient(
+            90deg,
+            #ffffff 0%,
+            #f2fafb 60%,
+            #fff7ef 100%
+        ) !important;
+
+    color: #174f65 !important;
+
+    font-family: "Fredoka", sans-serif !important;
+
+    cursor: pointer !important;
+
+    text-align: left !important;
+
+    transition:
+        background .2s ease,
+        box-shadow .2s ease !important;
+}
+
+
+#gifts .gift-group-header:hover {
+    background:
+        linear-gradient(
+            90deg,
+            #edf9fb,
+            #ffffff 60%,
+            #fff2e5
+        ) !important;
+}
+
+
+/* =========================================================
+   PARTE IZQUIERDA
+========================================================= */
+
+#gifts .gift-group-heading {
+    display: flex !important;
+
+    align-items: center !important;
+
+    gap: 14px !important;
+}
+
+
+/* ICONO */
+
+#gifts .gift-group-icon {
+    width: 50px !important;
+    height: 50px !important;
+
+    flex-shrink: 0 !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    border-radius: 15px !important;
+
+    background:
+        linear-gradient(
+            145deg,
+            #edf9fb,
+            #fff1df
+        ) !important;
+
+    border:
+        1px solid rgba(67, 150, 174, .10) !important;
+
+    font-size: 24px !important;
+
+    box-shadow:
+        0 5px 12px
+        rgba(51, 112, 132, .07) !important;
+}
+
+
+/* =========================================================
+   TEXTO
+========================================================= */
+
+#gifts .gift-group-text {
+    display: flex !important;
+
+    flex-direction: column !important;
+
+    gap: 3px !important;
+}
+
+
+#gifts .gift-group-text strong {
+    color: #174f65 !important;
+
+    font-family: "Fredoka", sans-serif !important;
+
+    font-size: 21px !important;
+
+    font-weight: 700 !important;
+
+    line-height: 1.15 !important;
+}
+
+
+#gifts .gift-group-text span {
+    color: #678b98 !important;
+
+    font-family: "Nunito", sans-serif !important;
+
+    font-size: 14px !important;
+
+    font-weight: 700 !important;
+}
+
+
+/* =========================================================
+   FLECHA
+========================================================= */
+
+#gifts .gift-group-arrow {
+    color: #49a7bf !important;
+
+    font-size: 18px !important;
+
+    font-weight: 800 !important;
+
+    margin-left: auto !important;
+
+    transition:
+        transform .25s ease !important;
+}
+
+
+/* GIRAR CUANDO SE ABRE */
+
+#gifts .gift-group.is-open
+.gift-group-arrow {
+    transform:
+        rotate(180deg) !important;
+}
+
+
+/* =========================================================
+   CONTENIDO DESPLEGADO
+========================================================= */
+
+#gifts .gift-group-content {
+    display: none !important;
+
+    flex-direction: column !important;
+
+    gap: 12px !important;
+
+    padding:
+        12px !important;
+
+    background:
+        rgba(232, 247, 250, .58) !important;
+
+    border-top:
+        1px solid
+        rgba(70, 158, 182, .12) !important;
+}
+
+
+#gifts .gift-group.is-open
+.gift-group-content {
+    display: flex !important;
+}
+
+
+/* =========================================================
+   CATEGORÍA ABIERTA
+========================================================= */
+
+#gifts .gift-group.is-open
+.gift-group-header {
+    background:
+        linear-gradient(
+            90deg,
+            #eaf8fa,
+            #ffffff 55%,
+            #fff2e5
+        ) !important;
+}
+
+
+/* =========================================================
+   TARJETAS DENTRO DEL ACORDEÓN
+========================================================= */
+
+#gifts .gift-group-content
+.gift-card {
+    margin: 0 !important;
+
+    box-shadow:
+        0 7px 18px
+        rgba(46, 111, 132, .06) !important;
+}
+
+
+/* =========================================================
+   CELULAR
+========================================================= */
+
+@media (max-width: 600px) {
+
+    #gifts .gift-group {
+        border-radius:
+            18px !important;
+
+        margin-bottom:
+            10px !important;
+    }
+
+
+    #gifts .gift-group-header {
+        min-height:
+            70px !important;
+
+        padding:
+            11px
+            13px !important;
+
+        gap:
+            10px !important;
+    }
+
+
+    #gifts .gift-group-icon {
+        width:
+            44px !important;
+
+        height:
+            44px !important;
+
+        font-size:
+            21px !important;
+    }
+
+
+    #gifts .gift-group-text strong {
+        font-size:
+            18px !important;
+    }
+
+
+    #gifts .gift-group-text span {
+        font-size:
+            12px !important;
+    }
+
+
+    #gifts .gift-group-arrow {
+        font-size:
+            16px !important;
+    }
+
+
+    #gifts .gift-group-content {
+        padding:
+            8px !important;
+
+        gap:
+            8px !important;
+    }
+}

@@ -26,7 +26,59 @@ export async function guardarReserva({
         }
 
         const regalo = regaloSnapshot.data();
+// Validamos la cantidad solicitada.
+const cantidadSolicitada =
+    Number(cantidad);
 
+if (
+    !Number.isInteger(cantidadSolicitada) ||
+    cantidadSolicitada <= 0
+) {
+    throw new Error(
+        "CANTIDAD_INVALIDA"
+    );
+}
+
+
+// Los regalos ABIERTOS pueden tener una meta máxima.
+if (regalo.tipo === "ABIERTO") {
+
+    const cantidadReservada =
+        Number(
+            regalo.cantidadReservada || 0
+        );
+
+    const cantidadMeta =
+        Number(
+            regalo.cantidadMeta || 0
+        );
+
+
+    // Si no tiene cantidadMeta o es 0,
+    // conservamos el comportamiento antiguo:
+    // regalo abierto sin límite.
+    if (cantidadMeta > 0) {
+
+        if (
+            cantidadReservada >= cantidadMeta
+        ) {
+            throw new Error(
+                "META_COMPLETADA"
+            );
+        }
+
+
+        if (
+            cantidadReservada +
+            cantidadSolicitada >
+            cantidadMeta
+        ) {
+            throw new Error(
+                "CANTIDAD_SUPERA_META"
+            );
+        }
+    }
+}
         // Los regalos UNICOS solo pueden reservarse una vez.
         if (
             regalo.tipo === "UNICO" &&

@@ -514,21 +514,189 @@ loadEventData();
 
 console.log("🚀 Proyecto Nebula iniciado correctamente");
 const giftsContainer = document.querySelector("#gifts-container");
+
 escucharRegalos((regalos) => {
+
     if (!giftsContainer) {
         return;
     }
 
     giftsContainer.innerHTML = "";
 
-    const fragment = document.createDocumentFragment();
+    /* =========================================
+       AGRUPAR REGALOS POR CATEGORÍA
+    ========================================= */
+
+    const regalosPorCategoria = {};
 
     regalos.forEach((gift) => {
-        const card = createGiftCard(gift);
-        fragment.appendChild(card);
+
+        const categoria =
+            gift.categoria?.trim() || "Otros";
+
+        if (!regalosPorCategoria[categoria]) {
+            regalosPorCategoria[categoria] = [];
+        }
+
+        regalosPorCategoria[categoria].push(gift);
     });
 
-    giftsContainer.appendChild(fragment);
+
+    /* =========================================
+       ORDEN DE LAS CATEGORÍAS
+    ========================================= */
+
+    const ordenCategorias = [
+        "Cuidado",
+        "Higiene",
+        "Ropa",
+        "Alimentación",
+        "Descanso",
+        "Transporte",
+        "Juguetes",
+        "Otros"
+    ];
+
+
+    const categoriasOrdenadas =
+        Object.entries(regalosPorCategoria)
+            .sort(([categoriaA], [categoriaB]) => {
+
+                const posicionA =
+                    ordenCategorias.indexOf(categoriaA);
+
+                const posicionB =
+                    ordenCategorias.indexOf(categoriaB);
+
+                const valorA =
+                    posicionA === -1
+                        ? 999
+                        : posicionA;
+
+                const valorB =
+                    posicionB === -1
+                        ? 999
+                        : posicionB;
+
+                return valorA - valorB;
+            });
+
+
+    /* =========================================
+       CREAR CADA GRUPO
+    ========================================= */
+
+    categoriasOrdenadas.forEach(
+        ([categoria, regalosCategoria], index) => {
+
+            const group =
+                document.createElement("section");
+
+            group.className =
+                "gift-group";
+
+
+            /* =====================================
+               BOTÓN / CABECERA
+            ===================================== */
+
+            const header =
+                document.createElement("button");
+
+            header.type = "button";
+
+            header.className =
+                "gift-group-header";
+
+            header.innerHTML = `
+
+                <div class="gift-group-heading">
+
+                    <span class="gift-group-icon">
+                        ${getGiftIcon(categoria)}
+                    </span>
+
+                    <div class="gift-group-text">
+
+                        <strong>
+                            ${categoria}
+                        </strong>
+
+                        <span>
+                            ${regalosCategoria.length}
+                            ${
+                                regalosCategoria.length === 1
+                                    ? " regalo"
+                                    : " regalos"
+                            }
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <span class="gift-group-arrow">
+                    ▼
+                </span>
+
+            `;
+
+
+            /* =====================================
+               CONTENEDOR INTERIOR
+            ===================================== */
+
+            const content =
+                document.createElement("div");
+
+            content.className =
+                "gift-group-content";
+
+
+            regalosCategoria.forEach((gift) => {
+
+                const card =
+                    createGiftCard(gift);
+
+                content.appendChild(card);
+
+            });
+
+
+            /* =====================================
+               PRIMER GRUPO ABIERTO
+            ===================================== */
+
+            if (index === 0) {
+
+                group.classList.add("is-open");
+
+            }
+
+
+            /* =====================================
+               ABRIR / CERRAR
+            ===================================== */
+
+            header.addEventListener(
+                "click",
+                () => {
+
+                    group.classList.toggle(
+                        "is-open"
+                    );
+
+                }
+            );
+
+
+            group.appendChild(header);
+            group.appendChild(content);
+
+            giftsContainer.appendChild(group);
+        }
+    );
 });
 /**
  * Retorna un emoji según la categoría del regalo.
@@ -614,17 +782,74 @@ if (!Number.isInteger(cantidad) || cantidad <= 0) {
         reservationModal.classList.add("hidden");
 
     } catch (error) {
-        console.error("Error al reservar:", error);
+
+    console.error(
+        "Error al reservar:",
+        error
+    );
+
+
+    if (
+        error.message ===
+        "META_COMPLETADA"
+    ) {
 
         mostrarToast({
-    titulo: "Misión bloqueada",
-    mensaje: "Esta misión acaba de ser reservada por otro invitado.",
-    tipo: "error",
-    icono: "🔒"
-});
+            titulo: "¡Meta completada!",
+            mensaje:
+                "Este regalo ya alcanzó la cantidad necesaria. 💙",
+            tipo: "success",
+            icono: "🎯"
+        });
 
-        reservationModal.classList.add("hidden");
+        reservationModal
+            .classList
+            .add("hidden");
 
+    } else if (
+        error.message ===
+        "CANTIDAD_SUPERA_META"
+    ) {
+
+        mostrarToast({
+            titulo: "Cantidad demasiado alta",
+            mensaje:
+                "La cantidad que elegiste supera lo que falta para completar este regalo.",
+            tipo: "error",
+            icono: "⚠️"
+        });
+
+        // Dejamos el modal abierto
+        // para que la persona pueda
+        // corregir la cantidad.
+
+    } else if (
+        error.message ===
+        "REGALO_YA_RESERVADO"
+    ) {
+
+        mostrarToast({
+            titulo: "Misión bloqueada",
+            mensaje:
+                "Esta misión acaba de ser reservada por otro invitado.",
+            tipo: "error",
+            icono: "🔒"
+        });
+
+        reservationModal
+            .classList
+            .add("hidden");
+
+    } else {
+
+        mostrarToast({
+            titulo: "No pudimos guardar la reserva",
+            mensaje:
+                "Inténtalo nuevamente en unos segundos.",
+            tipo: "error",
+            icono: "⚠️"
+        });
+    }
     } finally {
         confirmReservationButton.disabled = false;
         confirmReservationButton.textContent = "Confirmar misión";
@@ -637,7 +862,20 @@ function createGiftCard(gift) {
 
     const article = document.createElement("article");
     article.classList.add("gift-card");
+const cantidadReservada =
+    Number(gift.cantidadReservada || 0);
 
+const cantidadMeta =
+    Number(gift.cantidadMeta || 0);
+
+const metaAlcanzada =
+    gift.tipo === "ABIERTO" &&
+    cantidadMeta > 0 &&
+    cantidadReservada >= cantidadMeta;
+
+const bloqueado =
+    gift.estado === "reservado" ||
+    metaAlcanzada;
     article.innerHTML = `
         <div class="gift-image-placeholder">
             ${getGiftIcon(gift.categoria)}
@@ -654,7 +892,15 @@ function createGiftCard(gift) {
        <span class="gift-status">
     ${
         gift.tipo === "ABIERTO"
-            ? `♾️ Misión abierta · Puedes sumarte`
+            ? (
+                cantidadMeta > 0
+                    ? (
+                        metaAlcanzada
+                            ? `🎯 Meta completada · ${cantidadReservada} de ${cantidadMeta} ${gift.unidad || "unidades"}`
+                            : `🚀 ${cantidadReservada} de ${cantidadMeta} ${gift.unidad || "unidades"} reservados`
+                    )
+                    : `♾️ Misión abierta · Puedes sumarte`
+            )
             : gift.estado === "reservado"
                 ? `🔒 Reservado por ${gift.reservadoPor || "otro invitado"}`
                 : "● Disponible"
@@ -665,13 +911,15 @@ function createGiftCard(gift) {
             class="gift-button"
             type="button"
             data-gift-id="${gift.id}"
-            ${gift.estado === "reservado" ? "disabled" : ""}
+${bloqueado ? "disabled" : ""}
         >
             ${
-                gift.estado === "reservado"
-                    ? "Misión reservada"
-                    : "Reservar misión"
-            }
+    metaAlcanzada
+        ? "🎯 Meta completada"
+        : gift.estado === "reservado"
+            ? "Misión reservada"
+            : "Reservar misión"
+}
         </button>
     `;
 
@@ -784,7 +1032,7 @@ if (error.message === "REGALO_YA_RESERVADO") {
 }
 }
 
-loadGifts();
+//loadGifts();
 window.scrollTo({
     top: 0,
     left: 0,
