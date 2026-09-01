@@ -1016,6 +1016,47 @@
 .admin-gift-card.gift-disabled {
     opacity: 0.72;
 }
+/* =========================
+   EXPORTAR EXCEL
+========================= */
+
+.admin-export-box {
+    display: flex;
+    justify-content: flex-end;
+    margin: 18px 0 24px;
+}
+
+.admin-export-button {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 14px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #4cc9e8,
+            #ffd0a6
+        );
+
+    color: #123b52;
+
+    font: inherit;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.admin-export-button:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 22px
+        rgba(18, 59, 82, 0.18);
+}
     </style>
 
 </head>
@@ -1401,7 +1442,17 @@
             </button>
 
         </div>
+<div class="admin-export-box">
 
+    <button
+        type="button"
+        id="export-guests-excel"
+        class="admin-export-button"
+    >
+        📊 Exportar Excel
+    </button>
+
+</div>
 
         <!-- =========================
              LISTA DE INVITADOS
@@ -1420,7 +1471,9 @@
 
 
     </main>
-
+<script
+    src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"
+></script>
 
     <script
         type="module"

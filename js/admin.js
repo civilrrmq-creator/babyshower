@@ -53,7 +53,10 @@ const filterButtons =
 
 const guestSearch =
     document.querySelector("#guest-search");
-
+const exportGuestsButton =
+    document.querySelector(
+        "#export-guests-excel"
+    );
 
 /* =========================================================
    ELEMENTOS - REGALOS
@@ -535,7 +538,191 @@ function aplicarFiltro() {
         obtenerListaFiltrada()
     );
 }
+/* =========================================================
+   EXPORTAR INVITADOS A EXCEL
+========================================================= */
 
+function exportarInvitadosExcel() {
+
+    if (!window.XLSX) {
+        mostrarEstado(
+            "No fue posible cargar la herramienta de Excel."
+        );
+        return;
+    }
+
+    if (!invitados.length) {
+        mostrarEstado(
+            "No hay invitados para exportar."
+        );
+        return;
+    }
+
+
+    const datosExcel =
+        [...invitados]
+            .sort((a, b) => {
+
+                const eventoA =
+                    String(a.eventoId || "");
+
+                const eventoB =
+                    String(b.eventoId || "");
+
+                if (eventoA !== eventoB) {
+                    return eventoA.localeCompare(
+                        eventoB,
+                        "es"
+                    );
+                }
+
+                return String(
+                    a.nombre || ""
+                ).localeCompare(
+                    String(b.nombre || ""),
+                    "es"
+                );
+            })
+            .map((invitado) => {
+
+                const reservasInvitado =
+                    obtenerReservasDeInvitado(
+                        invitado
+                    );
+
+                const regalos =
+                    reservasInvitado
+                        .map((reserva) => {
+
+                            const nombreRegalo =
+                                reserva.regaloNombre ||
+                                "Regalo";
+
+                            const cantidad =
+                                Number(
+                                    reserva.cantidad || 1
+                                );
+
+                            const unidad =
+                                reserva.unidad ||
+                                "Unidad";
+
+                            return (
+                                `${nombreRegalo} ` +
+                                `(${cantidad} ${unidad})`
+                            );
+                        })
+                        .join(" | ");
+
+
+                const evento =
+                    invitado.eventoId ===
+                    "familia-2026"
+                        ? "Familia"
+                        : invitado.eventoId ===
+                          "amigos-2026"
+                            ? "Amigos"
+                            : invitado.eventoId ||
+                              "";
+
+
+                return {
+
+                    "Nombre":
+                        invitado.nombre || "",
+
+                    "Evento":
+                        evento,
+
+                    "Asistencia":
+                        invitado.asiste
+                            ? "Sí"
+                            : "No",
+
+                    "Adultos":
+                        invitado.asiste
+                            ? Number(
+                                invitado.adultos || 0
+                            )
+                            : 0,
+
+                    "Niños":
+                        invitado.asiste
+                            ? Number(
+                                invitado.ninos || 0
+                            )
+                            : 0,
+
+                    "Restricción alimentaria":
+                        invitado
+                            .restriccionAlimentaria ||
+                        "",
+
+                    "Mensaje":
+                        invitado.mensaje || "",
+
+                    "Regalos reservados":
+                        regalos,
+
+                    "Fecha de confirmación":
+                        formatearFecha(
+                            invitado.fechaRegistro
+                        )
+                };
+            });
+
+
+    const hoja =
+        window.XLSX.utils.json_to_sheet(
+            datosExcel
+        );
+
+
+    hoja["!cols"] = [
+        { wch: 30 }, // Nombre
+        { wch: 12 }, // Evento
+        { wch: 12 }, // Asistencia
+        { wch: 10 }, // Adultos
+        { wch: 10 }, // Niños
+        { wch: 28 }, // Restricción
+        { wch: 65 }, // Mensaje
+        { wch: 55 }, // Regalos
+        { wch: 25 }  // Fecha
+    ];
+
+
+    hoja["!autofilter"] = {
+        ref: hoja["!ref"]
+    };
+
+
+    const libro =
+        window.XLSX.utils.book_new();
+
+
+    window.XLSX.utils.book_append_sheet(
+        libro,
+        hoja,
+        "Invitados"
+    );
+
+
+    const hoy =
+        new Date()
+            .toISOString()
+            .slice(0, 10);
+
+
+    window.XLSX.writeFile(
+        libro,
+        `Invitados_Showerfest_${hoy}.xlsx`
+    );
+
+
+    mostrarEstado(
+        `Excel generado con ${invitados.length} invitados.`
+    );
+}
 
 /* =========================================================
    INVITADOS - RENDER
@@ -1344,7 +1531,12 @@ guestSearch.addEventListener(
         aplicarFiltro();
     }
 );
-
+exportGuestsButton.addEventListener(
+    "click",
+    () => {
+        exportarInvitadosExcel();
+    }
+);
 
 /* =========================================================
    INVITADOS - FIRESTORE
